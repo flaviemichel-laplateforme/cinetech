@@ -1,0 +1,177 @@
+/* src/pages/Detail.css */
+
+/* Le conteneur principal : Il prend tout l'écran, pas de scroll inutile */
+.detail-page {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* Centre le contenu horizontalement */
+    padding-top: 80px;
+    /* Laisse la place pour le Header fixe */
+    background-color: #111;
+    /* Fond de secours si l'image charge mal */
+    overflow-x: hidden;
+}
+
+/* L'image de fond (Backdrop) */
+.detail-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center top;
+    z-index: 0;
+    /* L'astuce Figma : Assombrir + Flouter pour faire ressortir le premier plan */
+    filter: brightness(0.4) blur(10px);
+    transform: scale(1.1);
+    /* Zoom léger pour éviter les bords flous blancs */
+}
+
+/* Le Bloc Principal (L'affiche + Le texte) */
+.detail-container {
+    position: relative;
+    z-index: 1;
+    /* Passe au-dessus du fond */
+    width: 100%;
+    max-width: 1200px;
+    /* Largeur max standard */
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    /* Espace entre la partie du haut et les suggestions en bas */
+}
+
+/* --- PARTIE HAUTE : Affiche & Infos --- */
+.detail-content {
+    display: flex;
+    align-items: flex-start;
+    /* Aligne tout en haut */
+    gap: 50px;
+    /* Espace entre l'affiche et le texte */
+    margin-top: 40px;
+}
+
+/* L'Affiche (Poster) */
+.detail-poster {
+    width: 320px;
+    /* Taille exacte maquette desktop */
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    /* Belle ombre portée */
+    flex-shrink: 0;
+    /* Empêche l'image de s'écraser */
+}
+
+/* Colonne de Texte */
+.detail-infos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 20px;
+    /* Petit décalage pour s'aligner joliement */
+}
+
+/* Titre "HARRY POTTER..." */
+.detail-title {
+    font-family: 'Arial', sans-serif;
+    /* Ou ta police Figma */
+    font-size: 3.5rem;
+    /* Très gros */
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+/* Métadonnées (Année • Genre • Durée) */
+.detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Note (Étoile) */
+.detail-rating {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Groupe des Boutons */
+.detail-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* Espacement entre les boutons */
+    margin-bottom: 40px;
+}
+
+/* Synopsis */
+.detail-overview {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    max-width: 800px;
+    /* Pour ne pas que le texte soit trop large à lire */
+}
+
+/* --- SECTION SUGGESTIONS --- */
+.suggestions-section {
+    padding-bottom: 60px;
+}
+
+.suggestions-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.suggestions-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    /* Masquer la barre de scroll */
+    scrollbar-width: none;
+}
+
+.suggestions-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 900px) {
+    .detail-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .detail-poster {
+        width: 200px;
+    }
+
+    .detail-actions {
+        justify-content: center;
+    }
+
+    .detail-meta {
+        justify-content: center;
+    }
+}

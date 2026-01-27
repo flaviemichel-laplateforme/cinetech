@@ -1,0 +1,49 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    border: none;
+    gap: 10px;
+    /* Espace entre icône et texte */
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Style Primaire (Rouge) */
+.btn-primary {
+    background-color: #E50914;
+    color: white;
+}
+
+/* Style Secondaire (Gris transparent) */
+.btn-secondary {
+    background-color: rgba(109, 109, 110, 0.7);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Style Cercle (Pour les favoris ou icônes seules) */
+.btn-circle {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    color: white;
+}
+
+.btn-circle:hover {
+    background: white;
+    color: black;
+    border-color: white;
+}

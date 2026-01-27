@@ -1,39 +1,38 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getUrl } from '../../utils/api';
+// On importe tes composants "Pro"
 import MovieCard from '../../components/MovieCard/MovieCard';
+import Button from '../../components/Button/Button';
 import './Home.css';
 
 function Home() {
-    // On ajoute un state pour le film "Hero" spécifique
     const [heroMovie, setHeroMovie] = useState(null);
     const [popularMovies, setPopularMovies] = useState([]);
     const [popularSeries, setPopularSeries] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchAllData = async () => {
             try {
                 setLoading(true);
 
-                // 1. On récupère HARRY POTTER (ID 671) pour l'affiche principale
+                // 1. On fixe HARRY POTTER (ID 671) pour le Hero
                 const resHero = await fetch(getUrl("/movie/671"));
                 const dataHero = await resHero.json();
                 setHeroMovie(dataHero);
 
-                // 2. Films Populaires (pour la liste du bas)
+                // 2. Les listes
                 const resMovies = await fetch(getUrl("/movie/popular"));
                 const dataMovies = await resMovies.json();
                 setPopularMovies(dataMovies.results || []);
 
-                // 3. Séries Populaires
                 const resSeries = await fetch(getUrl("/tv/popular"));
                 const dataSeries = await resSeries.json();
                 setPopularSeries(dataSeries.results || []);
 
             } catch (err) {
-                setError(err.message);
+                console.error(err);
             } finally {
                 setLoading(false);
             }
@@ -42,37 +41,33 @@ function Home() {
     }, []);
 
     if (loading) return <div style={{ padding: '20px' }}>Chargement...</div>;
-    if (error) return <div style={{ color: 'red' }}>Erreur: {error}</div>;
 
-    // Image de fond pour le Hero
+    // Image de fond
     const heroImage = heroMovie ? `https://image.tmdb.org/t/p/original${heroMovie.backdrop_path}` : '';
 
     return (
         <div className="home-container">
 
-            {/* --- HERO SECTION (Harry Potter) --- */}
+            {/* --- HERO SECTION (Directement dans la page) --- */}
             {heroMovie && (
                 <div className="hero" style={{ backgroundImage: `url(${heroImage})` }}>
                     <div className="hero-overlay">
                         <div className="hero-content">
-                            {/* Titre en Majuscules */}
                             <h1 className="hero-title">{heroMovie.title.toUpperCase()}</h1>
 
-                            {/* Infos techniques (Année - Genre) */}
                             <p className="hero-infos">
-                                {heroMovie.release_date?.substring(0, 4)} • Fantastique • {heroMovie.vote_average}/10
+                                {heroMovie.release_date?.substring(0, 4)} • Fantastique • {heroMovie.vote_average.toFixed(1)}/10
                             </p>
 
-                            {/* Synopsis centré */}
                             <p className="hero-overview">{heroMovie.overview}</p>
 
-                            {/* Boutons centrés */}
                             <div className="hero-buttons">
-                                <Link to={`/detail/${heroMovie.id}`} className="btn btn-red">
-                                    ▶ Lecture
+                                {/* On utilise ton composant Button ici ! */}
+                                <Link to={`/detail/${heroMovie.id}`}>
+                                    <Button type="primary">▶ Lecture</Button>
                                 </Link>
-                                <Link to={`/detail/${heroMovie.id}`} className="btn btn-grey">
-                                    Plus d'infos...
+                                <Link to={`/detail/${heroMovie.id}`}>
+                                    <Button type="secondary">Plus d'infos</Button>
                                 </Link>
                             </div>
                         </div>
@@ -85,6 +80,7 @@ function Home() {
                 <h2 className="category-title">Films Populaires</h2>
                 <div className="horizontal-scroll">
                     {popularMovies.map((movie) => (
+                        // On utilise ton composant MovieCard ici !
                         <MovieCard key={movie.id} movie={movie} />
                     ))}
                 </div>
