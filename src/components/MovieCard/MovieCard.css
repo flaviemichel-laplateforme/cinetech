@@ -1,0 +1,36 @@
+/* src/components/MovieCard.css sera remplacé par mon code figma*/
+
+.card {
+    min-width: 150px;
+    width: 150px;
+    /* Important pour que la liste scroll */
+    flex-shrink: 0;
+
+    /* Le reste de ton style... */
+    cursor: pointer;
+    transition: transform 0.3s;
+    border-radius: 8px;
+    position: relative;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    /* Petit zoom sympa */
+}
+
+.card-image {
+    width: 100%;
+    border-radius: 8px;
+    /* Arrondi des coins */
+    display: block;
+}
+
+.card-title {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #ccc;
+    /* Pour couper le texte s'il est trop long */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

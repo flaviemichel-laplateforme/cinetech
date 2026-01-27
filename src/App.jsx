@@ -1,12 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Detail from "./pages/Detail/Detail";
-import Favoris from "./pages/Favoris/Favoris";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header/Header'; // Import du composant Header
+import Home from './pages/Home/Home';
+import Detail from './pages/Detail/Detail';
+import Favoris from './pages/Favoris/Favoris';
+
 
 function App() {
     return (
         <BrowserRouter>
-            {/* Le header sera placé ici après */}
+            <Header />
             <Routes>
                 {/* Route Accueil */}
                 <Route path="/" element={<Home />} />
@@ -18,7 +20,8 @@ function App() {
                 <Route path="/favoris" element={<Favoris />} />
 
                 {/*Ajouter /films et /series plus tard */}
-
+                <Route path="/films" element={<Home />} />
+                <Route path="/series" element={<Home />} />
             </Routes>
         </BrowserRouter>
     );

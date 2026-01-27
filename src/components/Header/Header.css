@@ -1,0 +1,61 @@
+/* Le conteneur principal du menu */
+.header {
+    display: flex;
+    justify-content: space-between;
+    /* Ecarte le Logo et le Menu */
+    align-items: center;
+    padding: 15px 40px;
+    /* Marges intérieures (Haut/Bas Gauche/Droite) */
+    background-color: #000;
+    /* Fond noir un peu plus foncé */
+    /* Pour qu'il reste collé en haut quand on scrolle */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* Toujours au-dessus des images */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    /* Petite ombre */
+}
+
+/* Le Logo */
+.header-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* La liste des liens */
+.header-nav {
+    display: flex;
+    gap: 30px;
+    /* Espace entre "Accueil", "Films", etc. */
+    list-style: none;
+    /* Enlève les puces • */
+    margin-right: 20rem;
+}
+
+/* Les liens eux-mêmes */
+.header-link {
+    color: #ccc;
+    /* Gris clair */
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.header-link:hover,
+.header-link.active {
+    color: white;
+    /* Devient blanc au survol */
+    font-weight: bold;
+}
