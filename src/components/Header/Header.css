@@ -2,19 +2,13 @@
 .header {
     display: flex;
     justify-content: space-between;
-    /* Ecarte le Logo et le Menu */
     align-items: center;
     padding: 15px 40px;
-    /* Marges intérieures (Haut/Bas Gauche/Droite) */
     background-color: #000;
-    /* Fond noir un peu plus foncé */
-    /* Pour qu'il reste collé en haut quand on scrolle */
     position: sticky;
     top: 0;
     z-index: 100;
-    /* Toujours au-dessus des images */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    /* Petite ombre */
 }
 
 /* Le Logo */
@@ -38,24 +32,89 @@
 .header-nav {
     display: flex;
     gap: 30px;
-    /* Espace entre "Accueil", "Films", etc. */
     list-style: none;
-    /* Enlève les puces • */
     margin-right: 20rem;
+    /* Attention, c'est une très grande marge, ça risque de pousser la recherche hors de l'écran sur petit écran */
 }
 
 /* Les liens eux-mêmes */
 .header-link {
     color: #ccc;
-    /* Gris clair */
     font-size: 0.9rem;
     font-weight: 500;
     transition: color 0.3s;
+    text-decoration: none;
+    /* Ajouté pour enlever le soulignement */
 }
 
 .header-link:hover,
 .header-link.active {
     color: white;
-    /* Devient blanc au survol */
     font-weight: bold;
+}
+
+/* --- BARRE DE RECHERCHE MODIFIÉE --- */
+
+/* Le conteneur doit être la référence */
+.search-container {
+    position: relative;
+    display: flex;
+    /* Pour bien aligner verticalement */
+    align-items: center;
+    min-width: 200px;
+    /* On s'assure que la barre a une taille minimum */
+}
+
+/* NOUVEAU : La Loupe */
+.search-icon {
+    position: absolute;
+    left: 10px;
+    /* Collée à gauche */
+    color: #888;
+    /* Couleur grise */
+    font-size: 1.2rem;
+    /* Taille de l'icône */
+    pointer-events: none;
+    /* Permet de cliquer au travers */
+    z-index: 10;
+}
+
+.search-input {
+    width: 100%;
+    /* MODIFIÉ : 35px à gauche pour laisser la place à la loupe */
+    padding: 8px 8px 8px 35px;
+    border-radius: 20px;
+    /* Un peu plus arrondi c'est plus joli */
+    border: 1px solid #333;
+    /* Une petite bordure discrète */
+    background-color: #fff;
+    /* Ou #333 si tu veux un input sombre */
+    outline: none;
+}
+
+/* La liste flottante */
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #222;
+    border: 1px solid #444;
+    border-radius: 0 0 5px 5px;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid #333;
+}
+
+.search-item:hover {
+    background-color: #333;
 }
