@@ -1,58 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getUrl } from '../../utils/api';
 import Button from '../../components/Button/Button';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import FavoriteButton from '../../components/FavoriteButton/FavoriteButton';
-import './Detail.css';
-// 1. L'import est bien là
 import BtnReturn from '../../components/BtnReturn/BtnReturn';
+// 1. On importe le Hook
+import { useMovieData } from '../../hooks/useMovieData';
+import './Detail.css';
 
 export const Detail = () => {
     const { id, type } = useParams();
-    const mediaType = type || 'movie'; // Par défaut 'movie' pour la rétrocompatibilité
-    const [movie, setMovie] = useState(null);
-    const [recommendations, setRecommendations] = useState([]);
-    const [isFavorite, setIsFavorite] = useState(false);
-    const [trailerKey, setTrailerKey] = useState(null);
+
+    // 2. On utilise le Hook en lui passant l'ID et le TYPE (movie ou tv)
+    // Le hook fait tout le travail sale (fetch, tri, chargement...)
+    const { movie, recommendations, trailerKey, loading } = useMovieData(id, type || 'movie');
+
+    // États locaux (juste pour l'UI : Modal et Favoris)
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Chargement des données
-    useEffect(() => {
-        const fetchData = async () => {
-            // Info du film/série
-            const resMovie = await fetch(getUrl(`/${mediaType}/${id}`));
-            const dataMovie = await resMovie.json();
-            setMovie(dataMovie);
-            checkFavorite(dataMovie.id);
+    // Initialisation lazy du favori (pour éviter de lire le localStorage à chaque rendu)
+    const [isFavorite, setIsFavorite] = useState(() => {
+        const favs = JSON.parse(localStorage.getItem("favorites")) || [];
+        return favs.some(f => f.id === Number(id));
+    });
 
-            // Suggestions
-            const resRec = await fetch(getUrl(`/${mediaType}/${id}/recommendations`));
-            const dataRec = await resRec.json();
-            setRecommendations(dataRec.results ? dataRec.results.slice(0, 6) : []);
-
-            // Vidéos (Trailer)
-            const resVideo = await fetch(getUrl(`/${mediaType}/${id}/videos`));
-            const dataVideo = await resVideo.json();
-
-            const officialTrailer = dataVideo.results?.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
-            if (officialTrailer) {
-                setTrailerKey(officialTrailer.key);
-            } else {
-                setTrailerKey(null);
-            }
-        };
-
-        fetchData();
-        window.scrollTo(0, 0);
-    }, [id, mediaType]);
-
-    // Gestion des favoris
-    const checkFavorite = (movieId) => {
-        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-        setIsFavorite(favorites.some(fav => fav.id === movieId));
-    };
-
+    // --- Gestion des Favoris ---
     const toggleFavorite = () => {
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         if (isFavorite) {
@@ -64,33 +36,27 @@ export const Detail = () => {
         setIsFavorite(!isFavorite);
     };
 
-    if (!movie) return <div className="loading">Chargement...</div>;
+    // --- Gestion du chargement et erreurs ---
+    if (loading) return <div className="loading">Chargement...</div>;
+    if (!movie) return <div className="error">Contenu introuvable</div>;
 
-    // Variables pour l'affichage
+    // --- Préparation des données d'affichage ---
     const bgImage = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
     const posterImage = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
-    // Séries TV utilisent 'first_air_date', films utilisent 'release_date'
+    // Gestion intelligente Films vs Séries
+    const title = movie.title || movie.name;
     const year = (movie.release_date || movie.first_air_date)?.substring(0, 4);
-
-    // Séries n'ont pas toujours 'runtime', on l'affiche seulement si disponible
     const duration = movie.runtime ? `${Math.floor(movie.runtime / 60)}h${movie.runtime % 60}` : null;
     const genre = movie.genres?.[0]?.name;
 
-    // Titre : films ont 'title', séries ont 'name'
-    const title = movie.title || movie.name;
-
     return (
         <div className="detail-page">
-
-            {/* Fond d'écran */}
             <div className="detail-background" style={{ backgroundImage: `url(${bgImage})` }}></div>
 
-            {/* 2. AJOUT DU BOUTON RETOUR ICI (C'est ce qui manquait) */}
             <BtnReturn />
 
             <div className="detail-container">
-
                 <div className="detail-content">
                     <img className="detail-poster" alt={title} src={posterImage} />
 
@@ -98,33 +64,27 @@ export const Detail = () => {
                         <h1 className="detail-title">{title.toUpperCase()}</h1>
 
                         <p className="detail-meta">
-                            {year} • {genre}{duration ? ` • ${duration}` : ''}
+                            {year} • {genre} {duration && `• ${duration}`}
                         </p>
 
-                        <div className="detail-rating">⭐ {movie.vote_average.toFixed(1)}/10</div>
+                        <div className="detail-rating">⭐ {movie.vote_average?.toFixed(1)}/10</div>
 
                         <div className="detail-actions">
-                            {/* Bouton Lecture */}
                             <Button
                                 type="primary"
-                                onClick={() => alert("Désolé, le film n'est pas disponible en streaming gratuit !")}
+                                onClick={() => alert("Désolé, le contenu n'est pas disponible en streaming gratuit !")}
                             >
                                 ▶ Lecture
                             </Button>
 
-                            {/* Bouton Bande-annonce (Ouvre la modale) */}
                             {trailerKey && (
                                 <div className="btn-trailer-wrapper">
-                                    <Button
-                                        className="btn-trailer"
-                                        onClick={() => setIsModalOpen(true)}
-                                    >
+                                    <Button className="btn-trailer" onClick={() => setIsModalOpen(true)}>
                                         📺 Bande-annonce
                                     </Button>
                                 </div>
                             )}
 
-                            {/* Bouton Favoris */}
                             <div onClick={toggleFavorite} className="btn-favorite-wrapper">
                                 <FavoriteButton movie={movie} />
                             </div>
@@ -134,7 +94,7 @@ export const Detail = () => {
                     </div>
                 </div>
 
-                {/* Suggestions */}
+                {/* Section Suggestions */}
                 {recommendations.length > 0 && (
                     <div className="suggestions-section">
                         <h3 className="suggestions-title">Suggestions</h3>
@@ -145,16 +105,13 @@ export const Detail = () => {
                         </div>
                     </div>
                 )}
-
             </div>
 
-            {/* Modal pour la bande-annonce */}
+            {/* Modal Trailer */}
             {isModalOpen && trailerKey && (
                 <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="modal-close" onClick={() => setIsModalOpen(false)}>
-                            ✕
-                        </button>
+                        <button className="modal-close" onClick={() => setIsModalOpen(false)}>✕</button>
                         <h2 className="modal-title">Bande-annonce</h2>
                         <div className="video-responsive">
                             <iframe

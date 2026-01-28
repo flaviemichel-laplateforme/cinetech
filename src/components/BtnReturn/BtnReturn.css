@@ -1,7 +1,7 @@
 .btn-return {
     /* Positionnement fixe par rapport à la page */
     position: absolute;
-    top: 100px;
+    top: 40px;
     /* Ajuste selon la hauteur de ton Header */
     left: 40px;
     z-index: 50;
