@@ -1,107 +1,92 @@
-/* Le conteneur principal du menu */
+/* --- CONFIGURATION GLOBALE --- */
 .header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
     padding: 15px 40px;
-    background-color: #000;
-    position: sticky;
+    /* Espace sur les côtés */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%);
+    position: fixed;
     top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: background-color 0.3s;
+    backdrop-filter: blur(5px);
 }
 
-/* Le Logo */
-.header-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.logo-img {
-    height: 60px;
-    width: auto;
+/* LOGO */
+.header-logo .logo-img {
+    height: 35px;
+    /* Taille contrôlée */
     display: block;
-    object-fit: contain;
 }
 
-/* La liste des liens */
+/* NAVIGATION (MENU) */
 .header-nav {
     display: flex;
-    gap: 30px;
     list-style: none;
-    margin-right: 20rem;
-    /* Attention, c'est une très grande marge, ça risque de pousser la recherche hors de l'écran sur petit écran */
+    gap: 20px;
+    margin: 0 30px;
 }
 
-/* Les liens eux-mêmes */
 .header-link {
-    color: #ccc;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color 0.3s;
     text-decoration: none;
-    /* Ajouté pour enlever le soulignement */
+    color: #e5e5e5;
+    font-size: 0.9rem;
+    transition: color 0.3s;
 }
 
 .header-link:hover,
 .header-link.active {
-    color: white;
+    color: #ffffff;
     font-weight: bold;
 }
 
-/* --- BARRE DE RECHERCHE MODIFIÉE --- */
+/* ZONE DROITE (Recherche + Auth) */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
-/* Le conteneur doit être la référence */
+/* BARRE DE RECHERCHE */
 .search-container {
     position: relative;
     display: flex;
-    /* Pour bien aligner verticalement */
     align-items: center;
-    min-width: 200px;
-    /* On s'assure que la barre a une taille minimum */
+    background-color: rgba(0, 0, 0, 0.75);
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    /* Carré arrondi style Netflix */
 }
 
-/* NOUVEAU : La Loupe */
 .search-icon {
-    position: absolute;
-    left: 10px;
-    /* Collée à gauche */
-    color: #888;
-    /* Couleur grise */
+    color: white;
     font-size: 1.2rem;
-    /* Taille de l'icône */
-    pointer-events: none;
-    /* Permet de cliquer au travers */
-    z-index: 10;
+    margin-right: 10px;
 }
 
 .search-input {
-    width: 100%;
-    /* MODIFIÉ : 35px à gauche pour laisser la place à la loupe */
-    padding: 8px 8px 8px 35px;
-    border-radius: 20px;
-    /* Un peu plus arrondi c'est plus joli */
-    border: 1px solid #333;
-    /* Une petite bordure discrète */
-    background-color: #fff;
-    /* Ou #333 si tu veux un input sombre */
+    background: transparent;
+    border: none;
+    color: white;
     outline: none;
+    width: 200px;
+    /* Largeur desktop */
+    font-size: 0.9rem;
 }
 
-/* La liste flottante */
+/* RÉSULTATS AUTOCOMPLÉTION */
 .search-results {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #222;
-    border: 1px solid #444;
-    border-radius: 0 0 5px 5px;
-    z-index: 1000;
+    background-color: #141414;
+    border: 1px solid #333;
+    z-index: 1001;
     max-height: 300px;
     overflow-y: auto;
 }
@@ -113,8 +98,130 @@
     color: white;
     text-decoration: none;
     border-bottom: 1px solid #333;
+    transition: background 0.2s;
 }
 
 .search-item:hover {
     background-color: #333;
+}
+
+.search-item img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+/* AUTHENTIFICATION */
+.desktop-auth .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.desktop-auth button {
+    background: none;
+    border: none;
+    color: #E50914;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.btn-login {
+    background-color: #E50914;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+}
+
+/* Cacher les éléments mobile par défaut */
+.mobile-auth {
+    display: none;
+}
+
+/* =========================================
+   📱 RESPONSIVE DESIGN (TABLETTES & MOBILES)
+   ========================================= */
+
+@media (max-width: 900px) {
+    .header {
+        flex-wrap: wrap;
+        /* Permet aux éléments de passer à la ligne */
+        padding: 10px 20px;
+        gap: 15px;
+    }
+
+    /* Sur tablette/mobile, on réorganise */
+    .header-top-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* On cache l'auth desktop et on affiche l'auth mobile (icône simple) */
+    .desktop-auth {
+        display: none;
+    }
+
+    .mobile-auth {
+        display: block;
+    }
+
+    .mobile-auth .btn-icon {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    /* Le menu passe en dessous, centré */
+    .nav-container {
+        order: 2;
+        /* Position 2 */
+        width: 100%;
+        overflow-x: auto;
+        /* Scroll horizontal si ça dépasse */
+        padding-bottom: 5px;
+        /* Espace pour la scrollbar */
+    }
+
+    .header-nav {
+        margin: 0;
+        justify-content: flex-start;
+        /* Aligné à gauche pour le scroll */
+        padding: 0;
+        gap: 25px;
+        white-space: nowrap;
+        /* Empêche le texte de revenir à la ligne */
+    }
+
+    .header-nav::-webkit-scrollbar {
+        height: 0px;
+        /* Cache la barre de scroll tout en permettant de scroller */
+    }
+
+    /* La barre de recherche passe en dernier */
+    .header-right {
+        order: 3;
+        width: 100%;
+    }
+
+    .search-container {
+        width: 100%;
+        /* Prend toute la largeur */
+    }
+
+    .search-input {
+        width: 100%;
+        /* S'étire au maximum */
+        font-size: 1rem;
+        /* Texte plus gros pour le tactile */
+    }
 }

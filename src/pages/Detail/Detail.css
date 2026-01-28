@@ -1,21 +1,18 @@
-/* src/pages/Detail.css */
+/* src/pages/Detail/Detail.css */
 
-/* Le conteneur principal : Il prend tout l'écran, pas de scroll inutile */
+/* --- LAYOUT GLOBAL --- */
 .detail-page {
     position: relative;
     min-height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
-    /* Centre le contenu horizontalement */
     padding-top: 80px;
-    /* Laisse la place pour le Header fixe */
     background-color: #111;
-    /* Fond de secours si l'image charge mal */
     overflow-x: hidden;
 }
 
-/* L'image de fond (Backdrop) */
+/* Image de fond (Backdrop) */
 .detail-background {
     position: absolute;
     top: 0;
@@ -25,46 +22,37 @@
     background-size: cover;
     background-position: center top;
     z-index: 0;
-    /* L'astuce Figma : Assombrir + Flouter pour faire ressortir le premier plan */
-    filter: brightness(0.4) blur(10px);
+    filter: brightness(0.3) blur(8px);
+    /* Un peu plus sombre pour la lisibilité */
     transform: scale(1.1);
-    /* Zoom léger pour éviter les bords flous blancs */
 }
 
-/* Le Bloc Principal (L'affiche + Le texte) */
+/* --- CONTENEUR PRINCIPAL --- */
 .detail-container {
     position: relative;
     z-index: 1;
-    /* Passe au-dessus du fond */
     width: 100%;
     max-width: 1200px;
-    /* Largeur max standard */
     padding: 0 40px;
     display: flex;
     flex-direction: column;
     gap: 60px;
-    /* Espace entre la partie du haut et les suggestions en bas */
 }
 
 /* --- PARTIE HAUTE : Affiche & Infos --- */
 .detail-content {
     display: flex;
     align-items: flex-start;
-    /* Aligne tout en haut */
     gap: 50px;
-    /* Espace entre l'affiche et le texte */
     margin-top: 40px;
 }
 
-/* L'Affiche (Poster) */
+/* L'Affiche */
 .detail-poster {
     width: 320px;
-    /* Taille exacte maquette desktop */
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    /* Belle ombre portée */
     flex-shrink: 0;
-    /* Empêche l'image de s'écraser */
 }
 
 /* Colonne de Texte */
@@ -74,60 +62,108 @@
     flex-direction: column;
     justify-content: center;
     padding-top: 20px;
-    /* Petit décalage pour s'aligner joliement */
 }
 
-/* Titre "HARRY POTTER..." */
 .detail-title {
     font-family: 'Arial', sans-serif;
-    /* Ou ta police Figma */
-    font-size: 2rem;
-    /* Très gros */
+    font-size: 2.5rem;
+    /* Un peu plus grand */
     font-weight: 900;
     line-height: 1.1;
     text-transform: uppercase;
     margin-bottom: 15px;
     color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Métadonnées (Année • Genre • Durée) */
 .detail-meta {
     display: flex;
     align-items: center;
     gap: 15px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #ccc;
     margin-bottom: 20px;
     font-weight: 500;
 }
 
-/* Note (Étoile) */
 .detail-rating {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #fff;
+    color: #46d369;
+    /* Vert Netflix pour la note */
     margin-bottom: 30px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-/* Groupe des Boutons */
-.detail-actions {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    /* Espacement entre les boutons */
-    margin-bottom: 40px;
-}
-
-/* Synopsis */
 .detail-overview {
     font-size: 1.1rem;
     line-height: 1.6;
     color: #e0e0e0;
     max-width: 800px;
-    /* Pour ne pas que le texte soit trop large à lire */
+}
+
+/* --- BOUTONS D'ACTION --- */
+.detail-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Style spécifique pour le bouton bande-annonce (gris) */
+.btn-trailer-wrapper button {
+    background-color: rgba(109, 109, 110, 0.7);
+    color: white;
+    border: none;
+    backdrop-filter: blur(5px);
+}
+
+.btn-trailer-wrapper button:hover {
+    background-color: rgba(109, 109, 110, 0.4);
+}
+
+/* === NOUVEAU : BOUTONS RONDS (FAVORIS & COMMENTAIRES) === */
+.btn-icon-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: rgba(42, 42, 42, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    position: relative;
+    /* Pour le badge */
+}
+
+.btn-icon-wrapper:hover {
+    background-color: white;
+    border-color: white;
+    color: black;
+    transform: scale(1.1);
+}
+
+/* Badge de notification rouge */
+.comment-count-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #E50914;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 /* --- SECTION SUGGESTIONS --- */
@@ -136,96 +172,25 @@
 }
 
 .suggestions-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 20px;
     color: white;
+    border-left: 4px solid #E50914;
+    padding-left: 15px;
 }
 
 .suggestions-list {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     overflow-x: auto;
     padding-bottom: 20px;
-
+    scrollbar-width: thin;
+    /* Firefox */
+    scrollbar-color: #E50914 #222;
 }
 
-/* --- MOBILE RESPONSIVE --- */
-@media (max-width: 900px) {
-    .detail-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .detail-poster {
-        width: 200px;
-    }
-
-    .detail-actions {
-        justify-content: center;
-    }
-
-    .detail-meta {
-        justify-content: center;
-    }
-}
-
-/* Titre des sections (Trailer et Suggestions) */
-.section-title,
-.suggestions-title {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    margin-top: 40px;
-    color: white;
-    border-left: 5px solid #e50914;
-    /* Petite barre rouge Netflix */
-    padding-left: 15px;
-}
-
-/* Conteneur de la section Trailer */
-.trailer-section {
-    max-width: 1000px;
-    /* On ne veut pas que la vidéo soit trop géante */
-    margin: 0 auto;
-    /* Centré */
-    padding: 0 20px;
-}
-
-/* Technique classique pour avoir une vidéo Responsive 16/9 */
-.video-responsive {
-    overflow: hidden;
-    padding-bottom: 56.25%;
-    /* Ratio 16:9 (9/16 = 0.5625) */
-    position: relative;
-    height: 0;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    background-color: black;
-}
-
-.video-responsive iframe {
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-}
-
-/* Style pour le bouton Bande-annonce (gris) */
-.btn-trailer-wrapper button {
-    background-color: #555;
-    color: white;
-
-}
-
-.btn-trailer-wrapper button:hover {
-    background-color: #666;
-}
-
-/* === MODAL POUR LA BANDE-ANNONCE === */
-
-/* Overlay (fond sombre semi-transparent) */
+/* --- MODAL GLOBAL --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -238,8 +203,107 @@
     align-items: center;
     z-index: 9999;
     animation: fadeIn 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    background-color: #181818;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+    animation: slideDown 0.3s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background-color: white;
+    color: black;
+}
+
+.modal-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* === STYLE SPÉCIFIQUE MODAL COMMENTAIRES === */
+.comments-modal {
+    max-width: 800px;
+    max-height: 85vh;
+    /* Limite la hauteur */
+    overflow-y: auto;
+    /* Active le scroll si trop long */
+    background-color: #141414;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Custom Scrollbar pour le modal */
+.comments-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.comments-modal::-webkit-scrollbar-track {
+    background: #111;
+}
+
+.comments-modal::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+.comments-modal::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Ajustement pour le composant Comments à l'intérieur */
+.comments-modal .comments-section {
+    margin-top: 0;
+    padding: 0;
+    max-width: 100%;
+    background: transparent;
+}
+
+/* --- VIDEO RESPONSIVE --- */
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+    border-radius: 8px;
+    background-color: black;
+}
+
+.video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+/* --- ANIMATIONS --- */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -250,21 +314,9 @@
     }
 }
 
-/* Contenu de la modal */
-.modal-content {
-    position: relative;
-    width: 90%;
-    max-width: 900px;
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
-    animation: slideDown 0.3s ease;
-}
-
 @keyframes slideDown {
     from {
-        transform: translateY(-50px);
+        transform: translateY(20px);
         opacity: 0;
     }
 
@@ -274,45 +326,34 @@
     }
 }
 
-/* Bouton de fermeture */
-.modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s;
-}
-
-.modal-close:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Titre de la modal */
-.modal-title {
-    color: white;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    padding-right: 40px;
-}
-
-/* Mobile responsive pour la modal */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
-        padding: 20px;
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 900px) {
+    .detail-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
-    .modal-title {
-        font-size: 1.4rem;
+    .detail-poster {
+        width: 220px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .detail-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .detail-meta {
+        justify-content: center;
+    }
+
+    .detail-title {
+        font-size: 1.8rem;
+    }
+
+    .modal-content {
+        padding: 20px;
+        width: 95%;
     }
 }

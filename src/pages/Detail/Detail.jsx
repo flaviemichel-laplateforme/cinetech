@@ -4,35 +4,31 @@ import Button from '../../components/Button/Button';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import FavoriteButton from '../../components/FavoriteButton/FavoriteButton';
 import BtnReturn from '../../components/BtnReturn/BtnReturn';
-// Import du composant Commentaires
 import Comments from '../../components/Comments/Comments';
 import { useMovieData } from '../../hooks/useMovieData';
+// 1. Import de l'icône de commentaire
+import { FaComment } from 'react-icons/fa';
 import './Detail.css';
 
 export const Detail = () => {
     const { id, type } = useParams();
-
-    // On récupère apiReviews depuis le hook
     const { movie, recommendations, trailerKey, loading, apiReviews } = useMovieData(id, type || 'movie');
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // 2. ON RENOMME ET ON CRÉE DEUX ÉTATS DISTINCTS
+    const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false); // Pour la vidéo
+    const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false); // Pour les commentaires
 
-    // Initialisation du favori
     const [isFavorite, setIsFavorite] = useState(() => {
         const favs = JSON.parse(localStorage.getItem("favorites")) || [];
         return favs.some(f => f.id === Number(id));
     });
 
-    // --- Gestion des Favoris ---
     const toggleFavorite = () => {
-        // 1. SÉCURITÉ : On vérifie si l'utilisateur est connecté
         const user = JSON.parse(localStorage.getItem("user"));
-
         if (!user) {
             alert("🔒 Connectez-vous (en haut à droite) pour gérer vos favoris !");
-            return; // On arrête tout si pas connecté
+            return;
         }
-
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         if (isFavorite) {
             favorites = favorites.filter(fav => fav.id !== movie.id);
@@ -46,7 +42,6 @@ export const Detail = () => {
     if (loading) return <div className="loading">Chargement...</div>;
     if (!movie) return <div className="error">Contenu introuvable</div>;
 
-    // Préparation des données d'affichage
     const bgImage = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
     const posterImage = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
     const title = movie.title || movie.name;
@@ -54,10 +49,12 @@ export const Detail = () => {
     const duration = movie.runtime ? `${Math.floor(movie.runtime / 60)}h${movie.runtime % 60}` : null;
     const genre = movie.genres?.[0]?.name;
 
+    // On calcule le nombre total de commentaires pour l'afficher sur le bouton
+    const totalComments = (apiReviews?.length || 0) + (JSON.parse(localStorage.getItem(`comments_${type || 'movie'}_${id}`))?.length || 0);
+
     return (
         <div className="detail-page">
             <div className="detail-background" style={{ backgroundImage: `url(${bgImage})` }}></div>
-
             <BtnReturn />
 
             <div className="detail-container">
@@ -66,30 +63,29 @@ export const Detail = () => {
 
                     <div className="detail-infos">
                         <h1 className="detail-title">{title.toUpperCase()}</h1>
-
-                        <p className="detail-meta">
-                            {year} • {genre} {duration && `• ${duration}`}
-                        </p>
-
+                        <p className="detail-meta">{year} • {genre} {duration && `• ${duration}`}</p>
                         <div className="detail-rating">⭐ {movie.vote_average?.toFixed(1)}/10</div>
 
                         <div className="detail-actions">
-                            <Button
-                                type="primary"
-                                onClick={() => alert("Désolé, le contenu n'est pas disponible en streaming gratuit !")}
-                            >
-                                ▶ Lecture
-                            </Button>
-
                             {trailerKey && (
-                                <div className="btn-trailer-wrapper">
-                                    <Button className="btn-trailer" onClick={() => setIsModalOpen(true)}>
-                                        📺 Bande-annonce
-                                    </Button>
-                                </div>
+                                // 3. Mise à jour du onClick pour le trailer
+                                <Button className="btn-trailer" onClick={() => setIsTrailerModalOpen(true)}>
+                                    📺 Bande-annonce
+                                </Button>
                             )}
 
-                            <div onClick={toggleFavorite} className="btn-favorite-wrapper">
+                            {/* 4. NOUVEAU BOUTON POUR LES COMMENTAIRES */}
+                            <div
+                                className="btn-icon-wrapper"
+                                onClick={() => setIsCommentsModalOpen(true)}
+                                title="Voir les commentaires"
+                            >
+                                <FaComment size={24} />
+                                {/* Petit badge pour le nombre de commentaires */}
+                                {totalComments > 0 && <span className="comment-count-badge">{totalComments}</span>}
+                            </div>
+
+                            <div onClick={toggleFavorite} className="btn-icon-wrapper">
                                 <FavoriteButton movie={movie} />
                             </div>
                         </div>
@@ -98,13 +94,7 @@ export const Detail = () => {
                     </div>
                 </div>
 
-                {/* 2. AJOUT DU COMPOSANT COMMENTAIRES ICI */}
-                {/* On lui passe l'ID, le type (pour le stockage local) et les avis de l'API */}
-                <Comments
-                    movieId={id}
-                    type={type || 'movie'}
-                    apiReviews={apiReviews || []}
-                />
+                {/* 🛑 J'AI RETIRÉ LE COMPOSANT <Comments /> D'ICI 🛑 */}
 
                 {/* Section Suggestions */}
                 {recommendations.length > 0 && (
@@ -119,21 +109,37 @@ export const Detail = () => {
                 )}
             </div>
 
-            {/* Modal Trailer */}
-            {isModalOpen && trailerKey && (
-                <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+            {/* ================= MODALS ================= */}
+
+            {/* Modal Trailer (Mis à jour avec le nouvel état) */}
+            {isTrailerModalOpen && trailerKey && (
+                <div className="modal-overlay" onClick={() => setIsTrailerModalOpen(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="modal-close" onClick={() => setIsModalOpen(false)}>✕</button>
-                        <h2 className="modal-title">Bande-annonce</h2>
+                        <button className="modal-close" onClick={() => setIsTrailerModalOpen(false)}>✕</button>
                         <div className="video-responsive">
                             <iframe
                                 src={`https://www.youtube-nocookie.com/embed/${trailerKey}?autoplay=1&rel=0`}
-                                title="YouTube video player"
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
+                                title="YouTube video player" frameBorder="0" allowFullScreen
                             ></iframe>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 5. NOUVEAU : Modal Commentaires */}
+            {isCommentsModalOpen && (
+                <div className="modal-overlay" onClick={() => setIsCommentsModalOpen(false)}>
+                    {/* On ajoute une classe spécifique 'comments-modal' pour le CSS */}
+                    <div className="modal-content comments-modal" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close" onClick={() => setIsCommentsModalOpen(false)}>✕</button>
+                        <h2 className="modal-title" style={{ marginBottom: '20px' }}>Avis & Discussions</h2>
+
+                        {/* LE COMPOSANT COMMENTS EST MAINTENANT ICI */}
+                        <Comments
+                            movieId={id}
+                            type={type || 'movie'}
+                            apiReviews={apiReviews || []}
+                        />
                     </div>
                 </div>
             )}
