@@ -8,9 +8,10 @@ const MovieCard = ({ movie }) => {
 
     // Sécuriser le titre (Movies ont 'title', Series ont 'name')
     const title = movie.title || movie.name;
+    const mediaType = movie.title ? 'movie' : 'tv';
 
     return (
-        <Link to={`/detail/${movie.id}`} className="card" title={title}>
+        <Link to={`/detail/${mediaType}/${movie.id}`} className="card" title={title}>
             <img src={imgUrl} alt={title} className="card-image" loading="lazy" />
             <p className="card-title">{title}</p>
         </Link>

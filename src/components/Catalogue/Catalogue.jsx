@@ -52,7 +52,7 @@ function Catalogue({ category }) {
                 <>
                     <div className="catalogue-grid">
                         {items.map((item) => (
-                            <Link to={`/detail/${item.id}`} key={item.id} className="card-link">
+                            <Link to={`/detail/${category}/${item.id}`} key={item.id} className="card-link">
                                 <div className="card">
                                     {item.poster_path ? (
                                         <img

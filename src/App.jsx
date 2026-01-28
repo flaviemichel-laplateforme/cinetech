@@ -14,8 +14,8 @@ function App() {
                 {/* Route Accueil */}
                 <Route path="/" element={<Home />} />
 
-                {/* Route de detail par id */}
-                <Route path="/detail/:id" element={<Detail />} />
+                {/* Route de detail par id et type */}
+                <Route path="/detail/:type/:id" element={<Detail />} />
 
                 {/* Route Favoris */}
                 <Route path="/favoris" element={<Favoris />} />

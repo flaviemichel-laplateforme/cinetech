@@ -8,10 +8,11 @@ import './Detail.css';
 // 1. L'import est bien là
 import BtnReturn from '../../components/BtnReturn/BtnReturn';
 
-export const Detail = () => { 
-    const { id } = useParams();
+export const Detail = () => {
+    const { id, type } = useParams();
+    const mediaType = type || 'movie'; // Par défaut 'movie' pour la rétrocompatibilité
     const [movie, setMovie] = useState(null);
-    const [recommendations, setRecommendations] = useState([]); 
+    const [recommendations, setRecommendations] = useState([]);
     const [isFavorite, setIsFavorite] = useState(false);
     const [trailerKey, setTrailerKey] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,23 +20,23 @@ export const Detail = () => {
     // Chargement des données
     useEffect(() => {
         const fetchData = async () => {
-            // Info du film
-            const resMovie = await fetch(getUrl(`/movie/${id}`));
+            // Info du film/série
+            const resMovie = await fetch(getUrl(`/${mediaType}/${id}`));
             const dataMovie = await resMovie.json();
             setMovie(dataMovie);
             checkFavorite(dataMovie.id);
 
             // Suggestions
-            const resRec = await fetch(getUrl(`/movie/${id}/recommendations`));
+            const resRec = await fetch(getUrl(`/${mediaType}/${id}/recommendations`));
             const dataRec = await resRec.json();
-            setRecommendations(dataRec.results ? dataRec.results.slice(0, 6) : []); 
+            setRecommendations(dataRec.results ? dataRec.results.slice(0, 6) : []);
 
             // Vidéos (Trailer)
-            const resVideo = await fetch(getUrl(`/movie/${id}/videos`));
+            const resVideo = await fetch(getUrl(`/${mediaType}/${id}/videos`));
             const dataVideo = await resVideo.json();
-            
-            const officialTrailer = dataVideo.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
-            if(officialTrailer) {
+
+            const officialTrailer = dataVideo.results?.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
+            if (officialTrailer) {
                 setTrailerKey(officialTrailer.key);
             } else {
                 setTrailerKey(null);
@@ -43,8 +44,8 @@ export const Detail = () => {
         };
 
         fetchData();
-        window.scrollTo(0, 0); 
-    }, [id]);
+        window.scrollTo(0, 0);
+    }, [id, mediaType]);
 
     // Gestion des favoris
     const checkFavorite = (movieId) => {
@@ -68,9 +69,16 @@ export const Detail = () => {
     // Variables pour l'affichage
     const bgImage = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
     const posterImage = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-    const year = movie.release_date?.substring(0, 4);
-    const duration = `${Math.floor(movie.runtime / 60)}h${movie.runtime % 60}`;
+
+    // Séries TV utilisent 'first_air_date', films utilisent 'release_date'
+    const year = (movie.release_date || movie.first_air_date)?.substring(0, 4);
+
+    // Séries n'ont pas toujours 'runtime', on l'affiche seulement si disponible
+    const duration = movie.runtime ? `${Math.floor(movie.runtime / 60)}h${movie.runtime % 60}` : null;
     const genre = movie.genres?.[0]?.name;
+
+    // Titre : films ont 'title', séries ont 'name'
+    const title = movie.title || movie.name;
 
     return (
         <div className="detail-page">
@@ -84,21 +92,21 @@ export const Detail = () => {
             <div className="detail-container">
 
                 <div className="detail-content">
-                    <img className="detail-poster" alt={movie.title} src={posterImage} />
+                    <img className="detail-poster" alt={title} src={posterImage} />
 
                     <div className="detail-infos">
-                        <h1 className="detail-title">{movie.title.toUpperCase()}</h1>
+                        <h1 className="detail-title">{title.toUpperCase()}</h1>
 
                         <p className="detail-meta">
-                            {year} • {genre} • {duration}
+                            {year} • {genre}{duration ? ` • ${duration}` : ''}
                         </p>
 
                         <div className="detail-rating">⭐ {movie.vote_average.toFixed(1)}/10</div>
 
                         <div className="detail-actions">
                             {/* Bouton Lecture */}
-                            <Button 
-                                type="primary" 
+                            <Button
+                                type="primary"
                                 onClick={() => alert("Désolé, le film n'est pas disponible en streaming gratuit !")}
                             >
                                 ▶ Lecture
@@ -107,7 +115,7 @@ export const Detail = () => {
                             {/* Bouton Bande-annonce (Ouvre la modale) */}
                             {trailerKey && (
                                 <div className="btn-trailer-wrapper">
-                                    <Button 
+                                    <Button
                                         className="btn-trailer"
                                         onClick={() => setIsModalOpen(true)}
                                     >
@@ -149,11 +157,11 @@ export const Detail = () => {
                         </button>
                         <h2 className="modal-title">Bande-annonce</h2>
                         <div className="video-responsive">
-                            <iframe 
-                                src={`https://www.youtube-nocookie.com/embed/${trailerKey}?autoplay=1&rel=0`} 
-                                title="YouTube video player" 
-                                frameBorder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            <iframe
+                                src={`https://www.youtube-nocookie.com/embed/${trailerKey}?autoplay=1&rel=0`}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                             ></iframe>
                         </div>
