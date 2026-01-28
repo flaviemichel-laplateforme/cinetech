@@ -12,6 +12,7 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
     const [recommendations, setRecommendations] = useState([]); // Pour les suggestions
     const [isFavorite, setIsFavorite] = useState(false);
     const [trailerKey, setTrailerKey] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // 1. Chargement des données (Film + Suggestions)
     useEffect(() => {
@@ -101,15 +102,16 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
     </Button>
 
     {/* 2. Bouton Bande-annonce (Secondaire) */}
-    {/* J'ajoute une classe 'btn-trailer' pour changer sa couleur en gris */}
-    <div className="btn-trailer-wrapper">
-         <Button 
-            className="btn-trailer"
-            onClick={() => document.querySelector('.trailer-section')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-            📺 Bande-annonce
-        </Button>
-    </div>
+    {trailerKey && (
+        <div className="btn-trailer-wrapper">
+            <Button 
+                className="btn-trailer"
+                onClick={() => setIsModalOpen(true)}
+            >
+                📺 Bande-annonce
+            </Button>
+        </div>
+    )}
 
     {/* 3. Bouton Favoris */}
     <div onClick={toggleFavorite} className="btn-favorite-wrapper">
@@ -120,22 +122,6 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
                         <p className="detail-overview">{movie.overview}</p>
                     </div>
                 </div>
-
-            {trailerKey && (
-                <div className="trailer-section">
-                    <h3 className="section-title">Bande-annonce</h3>
-                        <div className="video-responsive">
-                         <iframe 
-                src={`https://www.youtube.com/embed/${trailerKey}`} 
-                title="YouTube video player" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-                        ></iframe>
-                    </div>
-                </div>
-                )}
-                
 
                 {/* --- PARTIE SUGGESTIONS (Ton frame-6 Figma) --- */}
                 {recommendations.length > 0 && (
@@ -151,6 +137,27 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
                 )}
 
             </div>
+
+            {/* Modal pour la bande-annonce */}
+            {isModalOpen && trailerKey && (
+                <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close" onClick={() => setIsModalOpen(false)}>
+                            ✕
+                        </button>
+                        <h2 className="modal-title">Bande-annonce</h2>
+                        <div className="video-responsive">
+                            <iframe 
+                                src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1`} 
+                                title="YouTube video player" 
+                                frameBorder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
