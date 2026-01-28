@@ -81,7 +81,7 @@
 .detail-title {
     font-family: 'Arial', sans-serif;
     /* Ou ta police Figma */
-    font-size: 3.5rem;
+    font-size: 2rem;
     /* Très gros */
     font-weight: 900;
     line-height: 1.1;
@@ -147,12 +147,7 @@
     gap: 20px;
     overflow-x: auto;
     padding-bottom: 20px;
-    /* Masquer la barre de scroll */
-    scrollbar-width: none;
-}
 
-.suggestions-list::-webkit-scrollbar {
-    display: none;
 }
 
 /* --- MOBILE RESPONSIVE --- */
@@ -174,4 +169,56 @@
     .detail-meta {
         justify-content: center;
     }
+}
+
+/* Titre des sections (Trailer et Suggestions) */
+.section-title,
+.suggestions-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    color: white;
+    border-left: 5px solid #e50914;
+    /* Petite barre rouge Netflix */
+    padding-left: 15px;
+}
+
+/* Conteneur de la section Trailer */
+.trailer-section {
+    max-width: 1000px;
+    /* On ne veut pas que la vidéo soit trop géante */
+    margin: 0 auto;
+    /* Centré */
+    padding: 0 20px;
+}
+
+/* Technique classique pour avoir une vidéo Responsive 16/9 */
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    /* Ratio 16:9 (9/16 = 0.5625) */
+    position: relative;
+    height: 0;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background-color: black;
+}
+
+.video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+/* Style pour le bouton Bande-annonce (gris) */
+.btn-trailer-wrapper button {
+    background-color: #555;
+    color: white;
+
+}
+
+.btn-trailer-wrapper button:hover {
+    background-color: #666;
 }

@@ -11,6 +11,7 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
     const [movie, setMovie] = useState(null);
     const [recommendations, setRecommendations] = useState([]); // Pour les suggestions
     const [isFavorite, setIsFavorite] = useState(false);
+    const [trailerKey, setTrailerKey] = useState(null);
 
     // 1. Chargement des données (Film + Suggestions)
     useEffect(() => {
@@ -21,11 +22,23 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
             setMovie(dataMovie);
             checkFavorite(dataMovie.id);
 
-            // Suggestions (Nouveau ! Basé sur ton code Figma)
+            // Suggestions
             const resRec = await fetch(getUrl(`/movie/${id}/recommendations`));
             const dataRec = await resRec.json();
             setRecommendations(dataRec.results ? dataRec.results.slice(0, 6) : []); // On en garde 6 max
+
+            const resVideo = await fetch(getUrl(`/movie/${id}/videos`));
+            const dataVideo = await resVideo.json();
+
+            // On cherche une vidéo qui est un "Trailer" et qui vient de "YouTube"
+            const officialTrailer = dataVideo.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
+            if(officialTrailer) {
+                setTrailerKey(officialTrailer.key);
+            } else {
+                setTrailerKey(null);
+            }
         };
+
         fetchData();
         window.scrollTo(0, 0); // Remonte en haut de page quand on change de film
     }, [id]);
@@ -78,17 +91,51 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
                         <div className="detail-rating">⭐ {movie.vote_average.toFixed(1)}/10</div>
 
                         <div className="detail-actions">
-                            {/* On remplace les <img> boutons de Figma par nos vrais boutons */}
-                            <Button type="primary">▶ Lecture</Button>
+    {/* 1. Bouton Lecture (Principal) */}
+    {/* Comme on n'a pas le film, on met une petite alerte pour l'instant */}
+    <Button 
+        type="primary" 
+        onClick={() => alert("Désolé, le film n'est pas disponible en streaming gratuit !")}
+    >
+        ▶ Lecture
+    </Button>
 
-                            <div onClick={toggleFavorite}>
-                                <FavoriteButton movie={movie} />
-                            </div>
-                        </div>
+    {/* 2. Bouton Bande-annonce (Secondaire) */}
+    {/* J'ajoute une classe 'btn-trailer' pour changer sa couleur en gris */}
+    <div className="btn-trailer-wrapper">
+         <Button 
+            className="btn-trailer"
+            onClick={() => document.querySelector('.trailer-section')?.scrollIntoView({ behavior: 'smooth' })}
+        >
+            📺 Bande-annonce
+        </Button>
+    </div>
+
+    {/* 3. Bouton Favoris */}
+    <div onClick={toggleFavorite} className="btn-favorite-wrapper">
+        <FavoriteButton movie={movie} />
+    </div>
+</div>
 
                         <p className="detail-overview">{movie.overview}</p>
                     </div>
                 </div>
+
+            {trailerKey && (
+                <div className="trailer-section">
+                    <h3 className="section-title">Bande-annonce</h3>
+                        <div className="video-responsive">
+                         <iframe 
+                src={`https://www.youtube.com/embed/${trailerKey}`} 
+                title="YouTube video player" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+                        ></iframe>
+                    </div>
+                </div>
+                )}
+                
 
                 {/* --- PARTIE SUGGESTIONS (Ton frame-6 Figma) --- */}
                 {recommendations.length > 0 && (
