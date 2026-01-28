@@ -148,7 +148,7 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
                         <h2 className="modal-title">Bande-annonce</h2>
                         <div className="video-responsive">
                             <iframe 
-                                src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1`} 
+                                src={`https://www.youtube-nocookie.com/embed/${trailerKey}?autoplay=1&rel=0`} 
                                 title="YouTube video player" 
                                 frameBorder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
