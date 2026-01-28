@@ -1,0 +1,28 @@
+.search-page {
+    padding: 100px 40px 40px;
+    /* Padding haut pour éviter le header */
+    min-height: 100vh;
+    background-color: #111;
+    color: white;
+}
+
+.search-title {
+    margin-bottom: 30px;
+    font-size: 2rem;
+    border-left: 5px solid #e50914;
+    padding-left: 15px;
+}
+
+.search-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.no-results {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #888;
+    margin-top: 50px;
+}

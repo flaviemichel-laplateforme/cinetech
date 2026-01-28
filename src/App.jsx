@@ -4,6 +4,7 @@ import Home from './pages/Home/Home';
 import Detail from './pages/Detail/Detail';
 import Favoris from './pages/Favoris/Favoris';
 import Catalogue from './components/Catalogue/Catalogue';
+import Search from './pages/Search/Search';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
                 {/* Route de detail par id et type */}
                 <Route path="/detail/:type/:id" element={<Detail />} />
+                <Route path="/detail/:id" element={<Detail />} />
 
                 {/* Route Favoris */}
                 <Route path="/favoris" element={<Favoris />} />
@@ -25,6 +27,10 @@ function App() {
 
                 {/* Quand on va sur /series, on appelle Catalogue en mode "tv" */}
                 <Route path="/series" element={<Catalogue category="tv" />} />
+
+                {/* Page de resultat de recherche */}
+                <Route path='/search' element={<Search />} />
+
             </Routes>
         </BrowserRouter>
     );
