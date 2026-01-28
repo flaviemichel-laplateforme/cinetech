@@ -5,16 +5,18 @@ import Button from '../../components/Button/Button';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import FavoriteButton from '../../components/FavoriteButton/FavoriteButton';
 import './Detail.css';
+// 1. L'import est bien là
+import BtnReturn from '../../components/BtnReturn/BtnReturn';
 
-export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester cohérent
+export const Detail = () => { 
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
-    const [recommendations, setRecommendations] = useState([]); // Pour les suggestions
+    const [recommendations, setRecommendations] = useState([]); 
     const [isFavorite, setIsFavorite] = useState(false);
     const [trailerKey, setTrailerKey] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // 1. Chargement des données (Film + Suggestions)
+    // Chargement des données
     useEffect(() => {
         const fetchData = async () => {
             // Info du film
@@ -26,12 +28,12 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
             // Suggestions
             const resRec = await fetch(getUrl(`/movie/${id}/recommendations`));
             const dataRec = await resRec.json();
-            setRecommendations(dataRec.results ? dataRec.results.slice(0, 6) : []); // On en garde 6 max
+            setRecommendations(dataRec.results ? dataRec.results.slice(0, 6) : []); 
 
+            // Vidéos (Trailer)
             const resVideo = await fetch(getUrl(`/movie/${id}/videos`));
             const dataVideo = await resVideo.json();
-
-            // On cherche une vidéo qui est un "Trailer" et qui vient de "YouTube"
+            
             const officialTrailer = dataVideo.results.find(vid => vid.type === "Trailer" && vid.site === "YouTube");
             if(officialTrailer) {
                 setTrailerKey(officialTrailer.key);
@@ -41,10 +43,10 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
         };
 
         fetchData();
-        window.scrollTo(0, 0); // Remonte en haut de page quand on change de film
+        window.scrollTo(0, 0); 
     }, [id]);
 
-    // Gestion des favoris (identique à avant)
+    // Gestion des favoris
     const checkFavorite = (movieId) => {
         const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         setIsFavorite(favorites.some(fav => fav.id === movieId));
@@ -73,12 +75,14 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
     return (
         <div className="detail-page">
 
-            {/* Fond d'écran (Remplace le "rectangle" de Figma) */}
+            {/* Fond d'écran */}
             <div className="detail-background" style={{ backgroundImage: `url(${bgImage})` }}></div>
+
+            {/* 2. AJOUT DU BOUTON RETOUR ICI (C'est ce qui manquait) */}
+            <BtnReturn />
 
             <div className="detail-container">
 
-                {/* --- PARTIE HAUTE (Similaire à ton frame-2 Figma) --- */}
                 <div className="detail-content">
                     <img className="detail-poster" alt={movie.title} src={posterImage} />
 
@@ -92,43 +96,41 @@ export const Detail = () => { // On renomme DetailsDesktop en Detail pour rester
                         <div className="detail-rating">⭐ {movie.vote_average.toFixed(1)}/10</div>
 
                         <div className="detail-actions">
-    {/* 1. Bouton Lecture (Principal) */}
-    {/* Comme on n'a pas le film, on met une petite alerte pour l'instant */}
-    <Button 
-        type="primary" 
-        onClick={() => alert("Désolé, le film n'est pas disponible en streaming gratuit !")}
-    >
-        ▶ Lecture
-    </Button>
+                            {/* Bouton Lecture */}
+                            <Button 
+                                type="primary" 
+                                onClick={() => alert("Désolé, le film n'est pas disponible en streaming gratuit !")}
+                            >
+                                ▶ Lecture
+                            </Button>
 
-    {/* 2. Bouton Bande-annonce (Secondaire) */}
-    {trailerKey && (
-        <div className="btn-trailer-wrapper">
-            <Button 
-                className="btn-trailer"
-                onClick={() => setIsModalOpen(true)}
-            >
-                📺 Bande-annonce
-            </Button>
-        </div>
-    )}
+                            {/* Bouton Bande-annonce (Ouvre la modale) */}
+                            {trailerKey && (
+                                <div className="btn-trailer-wrapper">
+                                    <Button 
+                                        className="btn-trailer"
+                                        onClick={() => setIsModalOpen(true)}
+                                    >
+                                        📺 Bande-annonce
+                                    </Button>
+                                </div>
+                            )}
 
-    {/* 3. Bouton Favoris */}
-    <div onClick={toggleFavorite} className="btn-favorite-wrapper">
-        <FavoriteButton movie={movie} />
-    </div>
-</div>
+                            {/* Bouton Favoris */}
+                            <div onClick={toggleFavorite} className="btn-favorite-wrapper">
+                                <FavoriteButton movie={movie} />
+                            </div>
+                        </div>
 
                         <p className="detail-overview">{movie.overview}</p>
                     </div>
                 </div>
 
-                {/* --- PARTIE SUGGESTIONS (Ton frame-6 Figma) --- */}
+                {/* Suggestions */}
                 {recommendations.length > 0 && (
                     <div className="suggestions-section">
                         <h3 className="suggestions-title">Suggestions</h3>
                         <div className="suggestions-list">
-                            {/* On remplace les <img movieCard> statiques par un map */}
                             {recommendations.map(rec => (
                                 <MovieCard key={rec.id} movie={rec} />
                             ))}

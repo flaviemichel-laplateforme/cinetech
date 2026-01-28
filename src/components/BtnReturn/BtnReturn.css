@@ -1,0 +1,52 @@
+.btn-return {
+    /* Positionnement fixe par rapport à la page */
+    position: absolute;
+    top: 100px;
+    /* Ajuste selon la hauteur de ton Header */
+    left: 40px;
+    z-index: 50;
+    /* Pour passer au-dessus des images */
+
+    /* Flexbox pour aligner l'icône et le texte */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    /* Style visuel */
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    /* Blanc légèrement transparent */
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-return:hover {
+    color: #ffffff;
+    transform: translateX(-5px);
+    /* Petite animation vers la gauche */
+}
+
+/* Version Mobile */
+@media (max-width: 768px) {
+    .btn-return {
+        top: 80px;
+        left: 20px;
+    }
+
+    .btn-return-text {
+        display: none;
+        /* On cache le texte sur petit écran */
+    }
+
+    .btn-return-icon {
+        font-size: 1.5rem;
+        /* On grossit un peu la flèche */
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Petit fond noir pour la lisibilité sur mobile */
+        border-radius: 50%;
+        padding: 5px;
+    }
+}
