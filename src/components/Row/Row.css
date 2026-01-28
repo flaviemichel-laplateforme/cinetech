@@ -1,0 +1,37 @@
+.row {
+    margin-left: 20px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.row-title {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Le conteneur qui scroll */
+.row-posters {
+    display: flex;
+    /* Aligne les éléments horizontalement */
+    overflow-y: hidden;
+    /* Cache ce qui dépasse en haut/bas */
+    overflow-x: scroll;
+    /* Active le scroll horizontal */
+    padding: 20px 0;
+    /* Un peu d'espace pour l'effet de zoom */
+    gap: 15px;
+    /* Espace entre les cartes */
+}
+
+/* Le lien ne doit pas casser la mise en page */
+.row-link {
+    text-decoration: none;
+    color: white;
+    transition: transform 0.3s;
+}
+
+.row-link:hover {
+    transform: scale(1.08);
+    /* Effet de zoom Netflix au survol */
+}

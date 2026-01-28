@@ -1,103 +1,70 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getUrl } from '../../utils/api';
-// On importe tes composants "Pro"
-import MovieCard from '../../components/MovieCard/MovieCard';
+// 1. On importe nos hooks et composants
+import { useFetch } from '../../hooks/useFetch';
 import Button from '../../components/Button/Button';
+import Row from '../../components/Row/Row'; // <--- Notre nouveau composant
 import './Home.css';
 
 function Home() {
-    const [heroMovie, setHeroMovie] = useState(null);
-    const [popularMovies, setPopularMovies] = useState([]);
-    const [popularSeries, setPopularSeries] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // 2. On récupère le film Hero (Harry Potter id: 671) via le Hook
+    const { data: heroData, loading: heroLoading } = useFetch("/movie/671");
 
-    useEffect(() => {
-        const fetchAllData = async () => {
-            try {
-                setLoading(true);
+    // Si ça charge, on affiche un petit message
+    if (heroLoading) return <div className="loading">Chargement...</div>;
 
-                // 1. On fixe HARRY POTTER (ID 671) pour le Hero
-                const resHero = await fetch(getUrl("/movie/671"));
-                const dataHero = await resHero.json();
-                setHeroMovie(dataHero);
-
-                // 2. Les listes
-                const resMovies = await fetch(getUrl("/movie/popular"));
-                const dataMovies = await resMovies.json();
-                setPopularMovies(dataMovies.results || []);
-
-                const resSeries = await fetch(getUrl("/tv/popular"));
-                const dataSeries = await resSeries.json();
-                setPopularSeries(dataSeries.results || []);
-
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchAllData();
-    }, []);
-
-    if (loading) return <div style={{ padding: '20px' }}>Chargement...</div>;
+    // On sécurise l'objet hero
+    const heroMovie = heroData;
+    if (!heroMovie) return null;
 
     // Image de fond
-    const heroImage = heroMovie ? `https://image.tmdb.org/t/p/original${heroMovie.backdrop_path}` : '';
+    const bgImage = `https://image.tmdb.org/t/p/original${heroMovie.backdrop_path}`;
 
     return (
         <div className="home-container">
 
-            {/* --- HERO SECTION (Directement dans la page) --- */}
-            {heroMovie && (
-                <div className="hero" style={{ backgroundImage: `url(${heroImage})` }}>
-                    <div className="hero-overlay">
-                        <div className="hero-content">
-                            <h1 className="hero-title">{heroMovie.title.toUpperCase()}</h1>
+            {/* --- HERO SECTION --- */}
+            <div className="hero" style={{ backgroundImage: `url(${bgImage})` }}>
+                <div className="hero-overlay">
+                    <div className="hero-content">
+                        <h1 className="hero-title">{heroMovie.title.toUpperCase()}</h1>
 
-                            <p className="hero-infos">
-                                {heroMovie.release_date?.substring(0, 4)} • Fantastique • {heroMovie.vote_average.toFixed(1)}/10
-                            </p>
+                        <p className="hero-infos">
+                            {heroMovie.release_date?.substring(0, 4)} • Note : {heroMovie.vote_average?.toFixed(1)}/10
+                        </p>
 
-                            <p className="hero-overview">{heroMovie.overview}</p>
+                        <p className="hero-overview">
+                            {heroMovie.overview ? heroMovie.overview.substring(0, 200) + "..." : "Description non disponible."}
+                        </p>
 
-                            <div className="hero-buttons">
-                                {/* On utilise ton composant Button ici ! */}
-                                <Link to={`/detail/${heroMovie.id}`}>
-                                    <Button type="primary">▶ Lecture</Button>
-                                </Link>
-                                <Link to={`/detail/${heroMovie.id}`}>
-                                    <Button type="secondary">Plus d'infos</Button>
-                                </Link>
-                            </div>
+                        <div className="hero-buttons">
+                            {/* Lien vers le détail (type="movie" car c'est un film) */}
+                            <Link to={`/detail/${heroMovie.id}/movie`}>
+                                <Button type="primary">▶ Lecture</Button>
+                            </Link>
+                            <Link to={`/detail/${heroMovie.id}/movie`}>
+                                <Button type="secondary">Plus d'infos</Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
-            )}
+                {/* Dégradé vers le bas pour fondre avec les listes */}
+                <div className="hero-fade-bottom"></div>
+            </div>
 
-            {/* --- LISTE FILMS --- */}
-            <section className="category-section">
-                <h2 className="category-title">Films Populaires</h2>
-                <div className="horizontal-scroll">
-                    {popularMovies.map((movie) => (
-                        // On utilise ton composant MovieCard ici !
-                        <MovieCard key={movie.id} movie={movie} />
-                    ))}
-                </div>
-            </section>
+            {/* --- LES RANGÉES (ROWS) --- */}
+            {/* Regarde comme c'est facile d'ajouter des catégories maintenant ! */}
 
-            {/* --- LISTE SÉRIES --- */}
-            <section className="category-section">
-                <h2 className="category-title">Séries du moment</h2>
-                <div className="horizontal-scroll">
-                    {popularSeries.map((serie) => (
-                        <MovieCard key={serie.id} movie={serie} />
-                    ))}
-                </div>
-            </section>
+            <div className="rows-container">
+                <Row title="Films Populaires" endpoint="/movie/popular" type="movie" />
+                <Row title="Séries du moment" endpoint="/tv/popular" type="tv" />
+
+                <Row title="Les Mieux Notés" endpoint="/movie/top_rated" type="movie" />
+                <Row title="Films d'Action" endpoint="/discover/movie?with_genres=28" type="movie" />
+                <Row title="Comédies" endpoint="/discover/movie?with_genres=35" type="movie" />
+            </div>
 
         </div>
     );
-};
+}
 
 export default Home;

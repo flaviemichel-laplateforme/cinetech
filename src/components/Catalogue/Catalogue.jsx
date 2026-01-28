@@ -1,39 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getUrl } from '../../utils/api';
+// 1. On importe le Hook
+import { useFetch } from '../../hooks/useFetch';
 import './Catalogue.css';
 
 function Catalogue({ category }) {
-    const [items, setItems] = useState([]);
     const [page, setPage] = useState(1);
 
-    // 1. NOUVEAU : État de chargement (vrai par défaut au début)
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchCatalogue = async () => {
-            // 2. NOUVEAU : On dit qu'on commence à charger (utile quand on change de page)
-            setIsLoading(true);
+    // Le hook gère le chargement, les erreurs et le fetch tout seul.
+    // On passe { page } en deuxième argument pour la pagination.
+    const { data, loading, error } = useFetch(`/discover/${category}`, { page });
 
-            try {
-                const response = await fetch(getUrl(`/discover/${category}`, { page }));
-                const data = await response.json();
+    // 3. On récupère les films/séries depuis 'data' (avec une sécurité si c'est vide)
+    const items = data?.results || [];
 
-                setItems(data.results);
-                window.scrollTo(0, 0);
-            } catch (error) {
-                console.error("Erreur catalogue :", error);
-            } finally {
-                // 3. NOUVEAU : Quoi qu'il arrive (réussite ou erreur), on arrête le chargement
-                setIsLoading(false);
-            }
-        };
+    const handleNext = () => {
+        setPage(page + 1);
+        window.scrollTo(0, 0);
+    };
 
-        fetchCatalogue();
-    }, [category, page]);
+    const handlePrev = () => {
+        setPage(page > 1 ? page - 1 : 1);
+        window.scrollTo(0, 0);
+    };
 
-    const handleNext = () => setPage(page + 1);
-    const handlePrev = () => setPage(page > 1 ? page - 1 : 1);
+    // Gestion d'erreur simple
+    if (error) return <div className="error">Une erreur est survenue : {error}</div>;
 
     return (
         <div className="catalogue-page">
@@ -41,17 +34,16 @@ function Catalogue({ category }) {
                 {category === "movie" ? "Tous les Films" : "Toutes les Séries"} - Page {page}
             </h1>
 
-            {/* 4. NOUVEAU : Affichage conditionnel */}
-            {isLoading ? (
-                // Si ça charge, on montre la roue
+            {/* 4. On utilise la variable 'loading' qui vient directement du hook */}
+            {loading ? (
                 <div className="loader-container">
                     <div className="spinner"></div>
                 </div>
             ) : (
-                // Sinon, on montre la grille et la pagination normalement
                 <>
                     <div className="catalogue-grid">
                         {items.map((item) => (
+                            // Note : Je garde ton format de lien avec category
                             <Link to={`/detail/${category}/${item.id}`} key={item.id} className="card-link">
                                 <div className="card">
                                     {item.poster_path ? (
