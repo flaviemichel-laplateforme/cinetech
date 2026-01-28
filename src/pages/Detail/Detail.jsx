@@ -4,21 +4,20 @@ import Button from '../../components/Button/Button';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import FavoriteButton from '../../components/FavoriteButton/FavoriteButton';
 import BtnReturn from '../../components/BtnReturn/BtnReturn';
-// 1. On importe le Hook
+// Import du composant Commentaires
+import Comments from '../../components/Comments/Comments';
 import { useMovieData } from '../../hooks/useMovieData';
 import './Detail.css';
 
 export const Detail = () => {
     const { id, type } = useParams();
 
-    // 2. On utilise le Hook en lui passant l'ID et le TYPE (movie ou tv)
-    // Le hook fait tout le travail sale (fetch, tri, chargement...)
-    const { movie, recommendations, trailerKey, loading } = useMovieData(id, type || 'movie');
+    // On récupère apiReviews depuis le hook
+    const { movie, recommendations, trailerKey, loading, apiReviews } = useMovieData(id, type || 'movie');
 
-    // États locaux (juste pour l'UI : Modal et Favoris)
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Initialisation lazy du favori (pour éviter de lire le localStorage à chaque rendu)
+    // Initialisation du favori
     const [isFavorite, setIsFavorite] = useState(() => {
         const favs = JSON.parse(localStorage.getItem("favorites")) || [];
         return favs.some(f => f.id === Number(id));
@@ -26,6 +25,14 @@ export const Detail = () => {
 
     // --- Gestion des Favoris ---
     const toggleFavorite = () => {
+        // 1. SÉCURITÉ : On vérifie si l'utilisateur est connecté
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+            alert("🔒 Connectez-vous (en haut à droite) pour gérer vos favoris !");
+            return; // On arrête tout si pas connecté
+        }
+
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         if (isFavorite) {
             favorites = favorites.filter(fav => fav.id !== movie.id);
@@ -36,15 +43,12 @@ export const Detail = () => {
         setIsFavorite(!isFavorite);
     };
 
-    // --- Gestion du chargement et erreurs ---
     if (loading) return <div className="loading">Chargement...</div>;
     if (!movie) return <div className="error">Contenu introuvable</div>;
 
-    // --- Préparation des données d'affichage ---
+    // Préparation des données d'affichage
     const bgImage = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
     const posterImage = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-
-    // Gestion intelligente Films vs Séries
     const title = movie.title || movie.name;
     const year = (movie.release_date || movie.first_air_date)?.substring(0, 4);
     const duration = movie.runtime ? `${Math.floor(movie.runtime / 60)}h${movie.runtime % 60}` : null;
@@ -93,6 +97,14 @@ export const Detail = () => {
                         <p className="detail-overview">{movie.overview}</p>
                     </div>
                 </div>
+
+                {/* 2. AJOUT DU COMPOSANT COMMENTAIRES ICI */}
+                {/* On lui passe l'ID, le type (pour le stockage local) et les avis de l'API */}
+                <Comments
+                    movieId={id}
+                    type={type || 'movie'}
+                    apiReviews={apiReviews || []}
+                />
 
                 {/* Section Suggestions */}
                 {recommendations.length > 0 && (

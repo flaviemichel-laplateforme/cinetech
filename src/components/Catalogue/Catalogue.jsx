@@ -1,18 +1,20 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-// 1. On importe le Hook
+import { Link, useParams } from 'react-router-dom'; // Ajout de useParams
 import { useFetch } from '../../hooks/useFetch';
 import './Catalogue.css';
 
-function Catalogue({ category }) {
+function Catalogue() {
+    // 1. On récupère le paramètre "type" directement depuis l'URL (ex: /films/movie -> type = "movie")
+    const { type } = useParams();
+
+    // Sécurité : si jamais le type est vide, on met 'movie' par défaut
+    const category = type || 'movie';
+
     const [page, setPage] = useState(1);
 
-
-    // Le hook gère le chargement, les erreurs et le fetch tout seul.
-    // On passe { page } en deuxième argument pour la pagination.
+    // 2. On utilise 'category' pour l'appel API
     const { data, loading, error } = useFetch(`/discover/${category}`, { page });
 
-    // 3. On récupère les films/séries depuis 'data' (avec une sécurité si c'est vide)
     const items = data?.results || [];
 
     const handleNext = () => {
@@ -25,8 +27,7 @@ function Catalogue({ category }) {
         window.scrollTo(0, 0);
     };
 
-    // Gestion d'erreur simple
-    if (error) return <div className="error">Une erreur est survenue : {error}</div>;
+    if (error) return <div className="error">Une erreur est survenue.</div>;
 
     return (
         <div className="catalogue-page">
@@ -34,7 +35,6 @@ function Catalogue({ category }) {
                 {category === "movie" ? "Tous les Films" : "Toutes les Séries"} - Page {page}
             </h1>
 
-            {/* 4. On utilise la variable 'loading' qui vient directement du hook */}
             {loading ? (
                 <div className="loader-container">
                     <div className="spinner"></div>
@@ -43,8 +43,8 @@ function Catalogue({ category }) {
                 <>
                     <div className="catalogue-grid">
                         {items.map((item) => (
-                            // Note : Je garde ton format de lien avec category
-                            <Link to={`/detail/${category}/${item.id}`} key={item.id} className="card-link">
+                            // 3. On construit le lien vers le détail avec la bonne catégorie
+                            <Link to={`/detail/${item.id}/${category}`} key={item.id} className="card-link">
                                 <div className="card">
                                     {item.poster_path ? (
                                         <img
@@ -61,13 +61,9 @@ function Catalogue({ category }) {
                     </div>
 
                     <div className="pagination">
-                        <button onClick={handlePrev} disabled={page === 1}>
-                            ← Précédent
-                        </button>
+                        <button onClick={handlePrev} disabled={page === 1}>← Précédent</button>
                         <span className="page-number">{page}</span>
-                        <button onClick={handleNext}>
-                            Suivant →
-                        </button>
+                        <button onClick={handleNext}>Suivant →</button>
                     </div>
                 </>
             )}

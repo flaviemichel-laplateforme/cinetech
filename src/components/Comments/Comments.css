@@ -1,0 +1,123 @@
+.comments-section {
+    max-width: 900px;
+    margin: 40px auto 0;
+    color: white;
+    background-color: #000;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 80px;
+    background: #222;
+    color: white;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    resize: none;
+}
+
+.btn-send {
+    background: #E50914;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.login-alert {
+    background: #222;
+    padding: 15px;
+    text-align: center;
+    color: #aaa;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.comment-card {
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #1a1a1a;
+    border-radius: 8px;
+}
+
+.comment-card.local {
+    border-left: 4px solid #E50914;
+}
+
+.comment-card.api {
+    border-left: 4px solid #555;
+    opacity: 0.9;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.author {
+    font-weight: bold;
+    color: white;
+    font-size: 1rem;
+}
+
+.badge {
+    font-size: 0.7rem;
+    background: #E50914;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: white;
+}
+
+.api-badge {
+    background: #555;
+}
+
+.content {
+    line-height: 1.5;
+    color: #ddd;
+}
+
+/* Réponses */
+.reply-card {
+    margin-left: 20px;
+    background: #252525;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    border-left: 2px solid #666;
+}
+
+.btn-reply {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-top: 8px;
+    text-decoration: underline;
+}
+
+.reply-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.reply-input input {
+    flex: 1;
+    padding: 8px;
+    background: #333;
+    border: 1px solid #555;
+    color: white;
+    border-radius: 4px;
+}

@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header/Header'; // Import du composant Header
+import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
 import Detail from './pages/Detail/Detail';
 import Favoris from './pages/Favoris/Favoris';
+// Attention au chemin d'import selon où tu as rangé ton Catalogue
 import Catalogue from './components/Catalogue/Catalogue';
 import Search from './pages/Search/Search';
-
 
 function App() {
     return (
@@ -15,21 +15,22 @@ function App() {
                 {/* Route Accueil */}
                 <Route path="/" element={<Home />} />
 
-                {/* Route de detail par id et type */}
-                <Route path="/detail/:type/:id" element={<Detail />} />
+                {/* Routes Détails (On garde les deux pour la sécurité) */}
+                <Route path="/detail/:id/:type" element={<Detail />} />
                 <Route path="/detail/:id" element={<Detail />} />
 
                 {/* Route Favoris */}
                 <Route path="/favoris" element={<Favoris />} />
 
-                {/* Quand on va sur /films, on appelle Catalogue en mode "movie" */}
-                <Route path="/films" element={<Catalogue category="movie" />} />
+                {/* 🔴 CORRECTION ICI : Une seule route pour gérer Films ET Séries */}
+                {/* Le ":type" va prendre la valeur "movie" ou "tv" */}
+                <Route path="/films/:type" element={<Catalogue />} />
 
-                {/* Quand on va sur /series, on appelle Catalogue en mode "tv" */}
-                <Route path="/series" element={<Catalogue category="tv" />} />
-
-                {/* Page de resultat de recherche */}
+                {/* Page de résultat de recherche */}
                 <Route path='/search' element={<Search />} />
+
+                {/* Route 404 (Optionnel mais conseillé) */}
+                <Route path="*" element={<div style={{ color: 'white', textAlign: 'center', marginTop: '100px' }}>Page introuvable</div>} />
 
             </Routes>
         </BrowserRouter>
