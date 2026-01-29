@@ -32,7 +32,7 @@ function Catalogue() {
     return (
         <div className="catalogue-page">
             <h1 className="catalogue-title">
-                {category === "movie" ? "Tous les Films" : "Toutes les Séries"} - Page {page}
+                {category === "movie" ? "Tous les Films" : "Toutes les Séries"}
             </h1>
 
             {loading ? (
