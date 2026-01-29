@@ -13,7 +13,6 @@ function Header() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
     const [searchTerm, setSearchTerm] = useState("");
     const [results, setResults] = useState([]);
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // Pour le futur hamburger si besoin
 
     const handleLogin = () => {
         const pseudo = prompt("Entrez votre pseudo :");
@@ -67,7 +66,6 @@ function Header() {
                     <img src="/images/logo.png" alt="CineTech" className="logo-img" />
                 </Link>
 
-                {/* Sur mobile, on affiche le profil à côté du logo */}
                 <div className="mobile-auth">
                     {user ? (
                         <button onClick={handleLogout} className="btn-icon"><FaSignOutAlt /></button>
@@ -115,7 +113,6 @@ function Header() {
                     )}
                 </div>
 
-                {/* Version Desktop du profil */}
                 <div className="desktop-auth">
                     {user ? (
                         <div className="user-info">

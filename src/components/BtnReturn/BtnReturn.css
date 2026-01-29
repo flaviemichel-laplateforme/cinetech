@@ -1,29 +1,25 @@
 .btn-return {
     position: fixed;
     top: 80px;
-    left: 40px;
-    z-index: 100;
+    left: var(--spacing-xl);
+    z-index: var(--z-header);
 
-    /* Flexbox pour aligner l'icône et le texte */
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-xs);
 
-    /* Style visuel */
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.7);
-    /* Blanc légèrement transparent */
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal) ease;
 }
 
 .btn-return:hover {
-    color: #ffffff;
+    color: var(--text-white);
     transform: translateX(-5px);
-    /* Petite animation vers la gauche */
 }
 
 /* Version Mobile */

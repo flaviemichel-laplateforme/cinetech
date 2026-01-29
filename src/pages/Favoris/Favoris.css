@@ -1,17 +1,17 @@
 .favoris-page {
     min-height: 100vh;
-    padding: 100px 40px 40px;
-    background-color: #111;
-    color: white;
+    padding: 100px var(--spacing-xl) var(--spacing-xl);
+    background-color: var(--bg-dark);
+    color: var(--text-white);
 }
 
 .favoris-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: var(--spacing-lg);
     border-bottom: 1px solid #333;
-    padding-bottom: 15px;
+    padding-bottom: var(--spacing-sm);
 }
 
 .favoris-header h1 {
@@ -22,16 +22,16 @@
 .btn-clear {
     background: transparent;
     border: 1px solid #666;
-    color: #ccc;
-    padding: 8px 15px;
-    border-radius: 4px;
+    color: var(--text-gray);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal) ease;
 }
 
 .btn-clear:hover {
-    border-color: #E50914;
-    color: #E50914;
+    border-color: var(--netflix-red);
+    color: var(--netflix-red);
 }
 
 .favoris-grid {
@@ -95,8 +95,6 @@
     transform: scale(1.05);
 }
 
-/* --- RESPONSIVE MOBILE --- */
-/* --- RESPONSIVE MOBILE --- */
 @media (max-width: 600px) {
     .favoris-page {
         padding: 140px 5px 20px;

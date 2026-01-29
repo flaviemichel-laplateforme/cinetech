@@ -1,38 +1,29 @@
-/* src/components/FavoriteButton/FavoriteButton.css */
-
 .fav-btn {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    /* Rend le bouton parfaitement rond */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal) ease;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Fond sombre semi-transparent */
     border: 2px solid rgba(255, 255, 255, 0.5);
-    /* Bordure fine grise/blanche */
     outline: none;
     padding: 0;
 }
 
-/* Effet au survol */
 .fav-btn:hover {
-    border-color: white;
+    border-color: var(--text-white);
     background-color: rgba(255, 255, 255, 0.1);
     transform: scale(1.1);
-    /* Petit zoom */
 }
 
-/* --- ÉTAT ACTIF (Quand le film est favori) --- */
 .fav-btn.active {
-    background-color: white;
-    border-color: white;
+    background-color: var(--text-white);
+    border-color: var(--text-white);
 }
 
-/* L'icône (Le cœur) */
 .fav-icon {
     font-size: 1.2rem;
     line-height: 1;

@@ -1,69 +1,49 @@
-/* Le conteneur principal (qui est un Link) */
 .card {
     display: flex;
     flex-direction: column;
-    /* 1. LARGEUR FIXE : C'est le secret pour que tout soit aligné */
     width: 160px;
-    /* 2. FLEX : Empêche la carte de s'écraser quand il y en a beaucoup sur une ligne */
     flex: 0 0 auto;
 
     text-decoration: none;
-    /* Enlève le soulignement du lien */
     background-color: transparent;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-normal) ease;
     margin-bottom: 10px;
-    /* Un peu d'espace en bas si c'est une grille */
 }
 
-/* L'effet de zoom au survol */
 .card:hover {
     transform: scale(1.05);
     z-index: 10;
-    /* Passe au-dessus des autres */
 }
 
-/* L'image */
 .card-image {
     width: 100%;
-    /* 3. HAUTEUR FIXE : Force toutes les affiches à la même hauteur */
     height: 240px;
 
-    /* Recadre l'image proprement sans la déformer */
     object-fit: cover;
 
-    border-radius: 8px;
-    /* Coins arrondis */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    /* Belle ombre */
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
 }
 
-/* Le titre en dessous */
 .card-title {
-    margin-top: 8px;
+    margin-top: var(--spacing-xs);
     font-size: 0.9rem;
-    color: #e5e5e5;
-    /* Gris très clair */
+    color: var(--text-light);
     font-weight: 500;
     text-align: center;
-    /* Titre centré */
 
-    /* 4. GESTION DU TEXTE TROP LONG */
-    /* Si le titre dépasse, on met "..." */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
 }
 
-/* --- VERSION MOBILE --- */
 @media (max-width: 768px) {
     .card {
         width: 120px;
-        /* Plus petit sur téléphone */
     }
 
     .card-image {
         height: 180px;
-        /* Hauteur adaptée */
     }
 }

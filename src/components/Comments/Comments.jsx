@@ -2,27 +2,21 @@ import { useState, useEffect } from 'react';
 import './Comments.css';
 
 const Comments = ({ movieId, type, apiReviews }) => {
-    // On récupère l'utilisateur connecté
     const user = JSON.parse(localStorage.getItem("user"));
 
-    // États pour les commentaires locaux
     const [localComments, setLocalComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
-    // États pour les réponses
     const [replyText, setReplyText] = useState("");
     const [activeReplyId, setActiveReplyId] = useState(null);
 
-    // Clé de stockage unique par film (ex: comments_movie_12345)
     const storageKey = `comments_${type}_${movieId}`;
 
-    // Charger les commentaires du localStorage au démarrage
     useEffect(() => {
         const saved = JSON.parse(localStorage.getItem(storageKey)) || [];
         setLocalComments(saved);
     }, [storageKey]);
 
-    // --- AJOUTER UN COMMENTAIRE ---
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!user) return alert("Connectez-vous pour commenter !");
@@ -42,7 +36,6 @@ const Comments = ({ movieId, type, apiReviews }) => {
         setNewComment("");
     };
 
-    // --- AJOUTER UNE RÉPONSE ---
     const handleReply = (parentId) => {
         if (!user) return alert("Connectez-vous pour répondre !");
         if (!replyText.trim()) return;
@@ -71,7 +64,6 @@ const Comments = ({ movieId, type, apiReviews }) => {
         <div className="comments-section">
             <h3>Discussions ({apiReviews.length + localComments.length})</h3>
 
-            {/* Formulaire d'ajout */}
             {user ? (
                 <form onSubmit={handleSubmit} className="comment-form">
                     <textarea
@@ -88,7 +80,6 @@ const Comments = ({ movieId, type, apiReviews }) => {
             )}
 
             <div className="comments-list">
-                {/* 1. Commentaires LOCAUX (Communauté) */}
                 {localComments.map(comment => (
                     <div key={comment.id} className="comment-card local">
                         <div className="comment-header">

@@ -1,21 +1,21 @@
 .search-page {
-    padding: 100px 40px 40px;
+    padding: 100px var(--spacing-xl) var(--spacing-xl);
     min-height: 100vh;
-    background-color: #111;
-    color: white;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
 }
 
 .search-title {
-    margin-bottom: 30px;
+    margin-bottom: var(--spacing-lg);
     font-size: 2rem;
-    border-left: 5px solid #e50914;
-    padding-left: 15px;
+    border-left: 5px solid var(--netflix-red);
+    padding-left: var(--spacing-sm);
 }
 
 .search-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: var(--spacing-md);
     justify-content: center;
 }
 

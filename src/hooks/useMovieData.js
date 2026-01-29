@@ -5,7 +5,6 @@ export function useMovieData(id, type = 'movie') {
     const [movie, setMovie] = useState(null);
     const [recommendations, setRecommendations] = useState([]);
     const [trailerKey, setTrailerKey] = useState(null);
-    // 1. NOUVEAU : On stocke les avis de l'API
     const [apiReviews, setApiReviews] = useState([]);
 
     const [loading, setLoading] = useState(true);
@@ -15,7 +14,6 @@ export function useMovieData(id, type = 'movie') {
         const fetchAllData = async () => {
             setLoading(true);
             try {
-                // 2. On ajoute l'appel aux reviews
                 const [resMovie, resRecs, resVideos, resReviews] = await Promise.all([
                     fetch(getUrl(`/${type}/${id}`)),
                     fetch(getUrl(`/${type}/${id}/recommendations`)),
@@ -33,7 +31,6 @@ export function useMovieData(id, type = 'movie') {
                 setMovie(dataMovie);
                 setRecommendations(dataRecs.results ? dataRecs.results.slice(0, 6) : []);
 
-                // 3. On sauvegarde les avis API
                 setApiReviews(dataReviews.results || []);
 
                 const officialTrailer = dataVideos.results?.find(
@@ -55,6 +52,5 @@ export function useMovieData(id, type = 'movie') {
         }
     }, [id, type]);
 
-    // 4. On retourne apiReviews pour l'utiliser dans la page Detail
     return { movie, recommendations, trailerKey, loading, error, apiReviews };
 }

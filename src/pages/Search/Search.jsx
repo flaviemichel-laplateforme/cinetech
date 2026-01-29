@@ -7,10 +7,8 @@ const Search = () => {
     const searchParams = new URLSearchParams(useLocation().search);
     const query = searchParams.get("q");
 
-    // On utilise l'API "multi" pour chercher films ET séries
     const { data, loading } = useFetch(`/search/multi?query=${query}`);
 
-    // On ne garde que les films et les séries (pas les personnes)
     const items = data?.results?.filter(item => item.media_type === 'movie' || item.media_type === 'tv') || [];
 
     return (
@@ -22,7 +20,6 @@ const Search = () => {
             ) : items.length > 0 ? (
                 <div className="search-grid">
                     {items.map(item => (
-                        // ✅ JUSTE LE COMPOSANT (car MovieCard contient déjà le Link corrigé ci-dessus)
                         <MovieCard key={item.id} movie={item} />
                     ))}
                 </div>

@@ -1,7 +1,7 @@
 .row {
-    margin-left: 20px;
-    margin-bottom: 30px;
-    color: white;
+    margin-left: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-white);
 }
 
 .row-title {
@@ -10,41 +10,38 @@
     font-weight: 600;
 }
 
-/* Le conteneur qui scroll */
 .row-posters {
     display: flex;
     overflow-y: hidden;
     overflow-x: scroll;
-    padding: 20px 0;
-    gap: 15px;
+    padding: var(--spacing-md) 0;
+    gap: var(--spacing-sm);
 }
 
-/* Le lien ne doit pas casser la mise en page */
 .row-link {
     text-decoration: none;
-    color: white;
-    transition: transform 0.3s;
+    color: var(--text-white);
+    transition: transform var(--transition-normal);
 }
 
 .row-link:hover {
     transform: scale(1.08);
 }
 
-/* Responsive pour petits écrans */
 @media (max-width: 500px) {
     .row {
         margin-left: 10px;
-        margin-bottom: 20px;
+        margin-bottom: var(--spacing-md);
     }
 
     .row-title {
         font-size: 1.2rem;
-        margin-bottom: 8px;
+        margin-bottom: var(--spacing-xs);
     }
 
     .row-posters {
         gap: 10px;
-        padding: 15px 0;
+        padding: var(--spacing-sm) 0;
     }
 
     .row-link:hover {
