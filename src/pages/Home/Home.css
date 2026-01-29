@@ -123,22 +123,48 @@
 @media (max-width: 500px) {
     .hero-title {
         font-size: 1rem;
-        margin-top: 200px;
+        margin-top: 0;
+    }
+
+    .hero-infos {
+        font-size: 0.8rem;
+        color: var(--text-gray);
+        font-weight: 500;
+        margin: 0;
     }
 
     .hero-overview {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
     }
 
     .hero-buttons {
-        gap: 15px;
-        margin-top: 5px;
-        margin-bottom: 200px;
-        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
     }
 
     .btn {
         padding: 8px 20px;
         font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero-title {
+        font-size: 1rem;
+        margin-bottom: 0px;
+    }
+
+    .hero-overview {
+        font-size: 0.9rem;
+    }
+
+    .hero-buttons {
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
     }
 }
