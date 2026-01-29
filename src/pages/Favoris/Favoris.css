@@ -1,0 +1,123 @@
+/* Structure de la page */
+.favoris-page {
+    min-height: 100vh;
+    padding: 100px 40px 40px;
+    /* Padding-top pour éviter le header fixe */
+    background-color: #111;
+    color: white;
+}
+
+/* En-tête avec Titre et Bouton */
+.favoris-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.favoris-header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.btn-clear {
+    background: transparent;
+    border: 1px solid #666;
+    color: #ccc;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-clear:hover {
+    border-color: #E50914;
+    color: #E50914;
+}
+
+/* --- LA GRILLE MAGIQUE --- */
+.favoris-grid {
+    display: grid;
+    /* Crée autant de colonnes que possible, avec une largeur min de 200px */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+    /* Espace entre les cartes */
+    animation: fadeIn 0.5s ease;
+}
+
+/* Animation d'apparition douce */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- EMPTY STATE (Quand la liste est vide) --- */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    /* Prend la moitié de l'écran */
+    text-align: center;
+    color: #777;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.btn-explore {
+    background-color: #E50914;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.btn-explore:hover {
+    background-color: #f40612;
+    transform: scale(1.05);
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 600px) {
+    .favoris-page {
+        padding: 120px 20px 20px;
+        /* Plus d'espace en haut pour le header mobile */
+    }
+
+    .favoris-grid {
+        /* Sur mobile, on réduit la taille minimale des cartes pour en mettre 2 par ligne */
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+    }
+
+    .favoris-header h1 {
+        font-size: 1.5rem;
+    }
+}
