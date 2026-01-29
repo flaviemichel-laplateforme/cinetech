@@ -1,11 +1,8 @@
 .btn-return {
-    /* Positionnement fixe par rapport à la page */
-    position: absolute;
-    top: 40px;
-    /* Ajuste selon la hauteur de ton Header */
+    position: fixed;
+    top: 80px;
     left: 40px;
-    z-index: 50;
-    /* Pour passer au-dessus des images */
+    z-index: 100;
 
     /* Flexbox pour aligner l'icône et le texte */
     display: flex;
