@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import Button from '../../components/Button/Button';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import FavoriteButton from '../../components/FavoriteButton/FavoriteButton';
@@ -18,11 +17,6 @@ export const Detail = () => {
     // 2. ON RENOMME ET ON CRÉE DEUX ÉTATS DISTINCTS
     const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false); // Pour la vidéo
     const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false); // Pour les commentaires
-
-    const [isFavorite, setIsFavorite] = useState(() => {
-        const favs = JSON.parse(localStorage.getItem("favorites")) || [];
-        return favs.some(f => f.id === Number(id));
-    });
 
     const toggleFavorite = () => {
         console.log("CLIC DÉTECTÉ ! User est :", localStorage.getItem("user"));
@@ -94,9 +88,7 @@ export const Detail = () => {
                                 {totalComments > 0 && <span className="comment-count-badge">{totalComments}</span>}
                             </div>
 
-                            <div onClick={toggleFavorite} className="btn-icon-wrapper">
-                                <FavoriteButton movie={movie} />
-                            </div>
+                            <FavoriteButton movie={movie} />
                         </div>
 
                         <p className="detail-overview">{movie.overview}</p>

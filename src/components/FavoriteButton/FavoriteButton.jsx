@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import './FavoriteButton.css';
 
 const FavoriteButton = ({ movie }) => {
@@ -19,14 +20,38 @@ const FavoriteButton = ({ movie }) => {
         e.preventDefault();
         e.stopPropagation();
 
+        // Vérification de la connexion utilisateur
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) {
+            toast.error("Connectez-vous pour ajouter aux favoris !", {
+                style: {
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+            return;
+        }
+
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
         if (isFav) {
             // SI FAVORI -> ON RETIRE
             favorites = favorites.filter(fav => fav.id !== movie.id);
+            toast.success("Retiré des favoris", {
+                style: {
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
         } else {
             // SI PAS FAVORI -> ON AJOUTE
             favorites.push(movie);
+            toast.success("Ajouté aux favoris", {
+                style: {
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
         }
 
         // Sauvegarde et mise à jour de l'état visuel
