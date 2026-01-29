@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getUrl } from '../utils/api';
 
+/**
+ * Hook personnalisé pour effectuer des appels API TMDB
+ * @param {string} endpoint - Chemin de l'endpoint API (ex: '/movie/popular')
+ * @param {Object} params - Paramètres additionnels pour la requête (ex: { page: 1 })
+ * @returns {Object} { data, loading, error }
+ */
 export function useFetch(endpoint, params = {}) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -32,7 +38,7 @@ export function useFetch(endpoint, params = {}) {
         };
 
         fetchData();
-    }, [endpoint, JSON.stringify(params)]);
+    }, [endpoint, JSON.stringify(params)]); // Stringify pour comparer les objets en profondeur
 
     return { data, loading, error };
 }

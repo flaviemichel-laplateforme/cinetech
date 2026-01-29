@@ -8,33 +8,28 @@ import Favoris from './pages/Favoris/Favoris';
 import Catalogue from './components/Catalogue/Catalogue';
 import Search from './pages/Search/Search';
 
+/**
+ * Composant racine de l'application
+ * Configure le routing et les notifications globales
+ */
 function App() {
     return (
         <BrowserRouter>
+            {/* Notifications toast avec z-index élevé pour passer au-dessus des modals */}
             <Toaster
                 position="bottom-center"
                 toastOptions={{
-                    // On force le toast à passer DEVANT tout le reste (Menu, Modals...)
                     style: { zIndex: 99999 }
                 }}
             />
             <Header />
             <Routes>
-                {/* Route Accueil */}
                 <Route path="/" element={<Home />} />
-
-                {/* Routes Détails (On garde les deux pour la sécurité) */}
                 <Route path="/detail/:id/:type" element={<Detail />} />
                 <Route path="/detail/:id" element={<Detail />} />
-
-                {/* Route Favoris */}
                 <Route path="/favoris" element={<Favoris />} />
-
-                {/* 🔴 CORRECTION ICI : Une seule route pour gérer Films ET Séries */}
-                {/* Le ":type" va prendre la valeur "movie" ou "tv" */}
+                {/* Route dynamique : :type accepte 'movie' ou 'tv' */}
                 <Route path="/films/:type" element={<Catalogue />} />
-
-                {/* Page de résultat de recherche */}
                 <Route path='/search' element={<Search />} />
 
                 {/* Route 404 (Optionnel mais conseillé) */}
