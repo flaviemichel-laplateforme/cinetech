@@ -7,7 +7,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 80px;
+    padding-top: 100px;
     background-color: #111;
     overflow-x: hidden;
 }
@@ -44,7 +44,7 @@
     display: flex;
     align-items: flex-start;
     gap: 50px;
-    margin-top: 40px;
+    margin-top: 60px;
 }
 
 /* L'Affiche */
@@ -334,10 +334,15 @@
 
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 900px) {
+    .detail-page {
+        padding-top: 120px;
+    }
+
     .detail-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        margin-top: 20px;
     }
 
     .detail-poster {
@@ -361,5 +366,28 @@
     .modal-content {
         padding: 20px;
         width: 95%;
+    }
+}
+
+@media (max-width: 500px) {
+    .detail-page {
+        padding-top: 120px;
+    }
+
+    .detail-content {
+        margin-top: 10px;
+    }
+
+    .detail-title {
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    .detail-poster {
+        width: 180px;
+    }
+
+    .detail-container {
+        padding: 0 20px;
     }
 }
