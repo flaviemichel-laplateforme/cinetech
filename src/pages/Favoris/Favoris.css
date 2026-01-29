@@ -1,7 +1,7 @@
 .favoris-page {
-    min-height: 100vh;
-    padding: 100px var(--spacing-xl) var(--spacing-xl);
+    padding: 140px var(--spacing-md) var(--spacing-md);
     background-color: var(--bg-dark);
+    min-height: 100vh;
     color: var(--text-white);
 }
 
@@ -10,34 +10,32 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-lg);
-    border-bottom: 1px solid #333;
-    padding-bottom: var(--spacing-sm);
 }
 
 .favoris-header h1 {
-    font-size: 2rem;
-    font-weight: bold;
+    text-align: center;
+    font-size: 1.8rem;
 }
 
 .btn-clear {
-    background: transparent;
-    border: 1px solid #666;
-    color: var(--text-gray);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
     transition: all var(--transition-normal) ease;
 }
 
 .btn-clear:hover {
-    border-color: var(--netflix-red);
-    color: var(--netflix-red);
+    opacity: 0.8;
 }
 
 .favoris-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 30px;
+    gap: var(--spacing-lg);
     justify-items: center;
 }
 
@@ -100,6 +98,12 @@
         padding: 140px 5px 20px;
     }
 
+    .favoris-header h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1rem;
+    }
+
     .favoris-grid {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
@@ -109,25 +113,5 @@
     .fav-card-wrapper {
         display: block;
         width: 100%;
-    }
-
-    .favoris-header {
-        margin-top: 30px;
-    }
-
-    .favoris-header h1 {
-        margin-top: 30px;
-        font-size: 1rem;
-    }
-
-    .btn-clear {
-        background: transparent;
-        border: 1px solid #666;
-        color: #ccc;
-        padding: 8px 15px;
-        margin-bottom: -20px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.3s ease;
     }
 }
