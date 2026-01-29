@@ -30,7 +30,7 @@
 /* --- CONTENEUR PRINCIPAL --- */
 .detail-container {
     position: relative;
-    z-index: 1;
+    z-index: 10;
     width: 100%;
     max-width: 1200px;
     padding: 0 40px;
@@ -110,6 +110,9 @@
     align-items: center;
     gap: 15px;
     margin-bottom: 30px;
+
+    position: relative;
+    z-index: 20;
 }
 
 /* Style spécifique pour le bouton bande-annonce (gris) */

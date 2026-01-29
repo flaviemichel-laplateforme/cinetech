@@ -1,15 +1,23 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
 import Detail from './pages/Detail/Detail';
 import Favoris from './pages/Favoris/Favoris';
-// Attention au chemin d'import selon où tu as rangé ton Catalogue
+
 import Catalogue from './components/Catalogue/Catalogue';
 import Search from './pages/Search/Search';
 
 function App() {
     return (
         <BrowserRouter>
+            <Toaster
+                position="bottom-center"
+                toastOptions={{
+                    // On force le toast à passer DEVANT tout le reste (Menu, Modals...)
+                    style: { zIndex: 99999 }
+                }}
+            />
             <Header />
             <Routes>
                 {/* Route Accueil */}
@@ -33,6 +41,7 @@ function App() {
                 <Route path="*" element={<div style={{ color: 'white', textAlign: 'center', marginTop: '100px' }}>Page introuvable</div>} />
 
             </Routes>
+
         </BrowserRouter>
     );
 }

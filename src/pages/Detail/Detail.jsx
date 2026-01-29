@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import Button from '../../components/Button/Button';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import FavoriteButton from '../../components/FavoriteButton/FavoriteButton';
@@ -24,9 +25,16 @@ export const Detail = () => {
     });
 
     const toggleFavorite = () => {
+        console.log("CLIC DÉTECTÉ ! User est :", localStorage.getItem("user"));
         const user = JSON.parse(localStorage.getItem("user"));
         if (!user) {
-            alert("🔒 Connectez-vous (en haut à droite) pour gérer vos favoris !");
+            console.log("Pas de user -> Tentative de Toast Erreur"); // 👇 Mouchard
+            toast.error("Connectez-vous pour ajouter aux favoris !", {
+                style: {
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
             return;
         }
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -34,6 +42,7 @@ export const Detail = () => {
             favorites = favorites.filter(fav => fav.id !== movie.id);
         } else {
             favorites.push(movie);
+            toast.success("Retiré des favoris");
         }
         localStorage.setItem("favorites", JSON.stringify(favorites));
         setIsFavorite(!isFavorite);
@@ -70,7 +79,7 @@ export const Detail = () => {
                             {trailerKey && (
                                 // 3. Mise à jour du onClick pour le trailer
                                 <Button className="btn-trailer" onClick={() => setIsTrailerModalOpen(true)}>
-                                    📺 Bande-annonce
+                                    Bande-annonce
                                 </Button>
                             )}
 
