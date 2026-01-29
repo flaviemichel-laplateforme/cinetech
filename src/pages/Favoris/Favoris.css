@@ -18,18 +18,18 @@
 }
 
 .btn-clear {
-    padding: 10px 20px;
-    background-color: #e50914;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    background: transparent;
+    border: 1px solid #666;
+    color: var(--text-gray);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    font-size: 1rem;
     transition: all var(--transition-normal) ease;
 }
 
 .btn-clear:hover {
-    opacity: 0.8;
+    border-color: var(--netflix-red);
+    color: var(--netflix-red);
 }
 
 .favoris-grid {
@@ -113,5 +113,20 @@
     .fav-card-wrapper {
         display: block;
         width: 100%;
+    }
+
+    .fav-card-wrapper .card {
+        width: 100%;
+    }
+
+    .fav-card-wrapper .card-image {
+        border-radius: 6px;
+        width: 100%;
+        height: auto;
+    }
+
+    .fav-card-wrapper .card-title {
+        font-size: 0.8rem;
+        margin-top: 5px;
     }
 }
