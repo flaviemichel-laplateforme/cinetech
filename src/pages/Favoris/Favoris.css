@@ -1,13 +1,10 @@
-/* Structure de la page */
 .favoris-page {
     min-height: 100vh;
     padding: 100px 40px 40px;
-    /* Padding-top pour éviter le header fixe */
     background-color: #111;
     color: white;
 }
 
-/* En-tête avec Titre et Bouton */
 .favoris-header {
     display: flex;
     justify-content: space-between;
@@ -37,16 +34,13 @@
     color: #E50914;
 }
 
-/* --- LA GRILLE MAGIQUE --- */
 .favoris-grid {
     display: grid;
-    /* Créera autant de colonnes que possible de 200px minimum */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 30px;
     justify-items: center;
 }
 
-/* Animation d'apparition douce */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -59,14 +53,12 @@
     }
 }
 
-/* --- EMPTY STATE (Quand la liste est vide) --- */
 .empty-state {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 50vh;
-    /* Prend la moitié de l'écran */
     text-align: center;
     color: #777;
 }

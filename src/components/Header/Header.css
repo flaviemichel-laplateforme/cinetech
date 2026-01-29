@@ -1,10 +1,8 @@
-/* --- CONFIGURATION GLOBALE --- */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 15px 40px;
-    /* Espace sur les côtés */
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%);
     position: fixed;
     top: 0;
@@ -15,10 +13,8 @@
     backdrop-filter: blur(5px);
 }
 
-/* LOGO */
 .header-logo .logo-img {
     height: 35px;
-    /* Taille contrôlée */
     display: block;
 }
 
@@ -50,7 +46,6 @@
     gap: 20px;
 }
 
-/* BARRE DE RECHERCHE */
 .search-container {
     position: relative;
     display: flex;
@@ -59,7 +54,6 @@
     border: 1px solid #ccc;
     padding: 5px 10px;
     border-radius: 4px;
-    /* Carré arrondi style Netflix */
 }
 
 .search-icon {
@@ -74,7 +68,6 @@
     color: white;
     outline: none;
     width: 200px;
-    /* Largeur desktop */
     font-size: 0.9rem;
 }
 

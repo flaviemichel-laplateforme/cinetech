@@ -11,14 +11,11 @@
     font-size: 1.8rem;
 }
 
-/* --- GRILLE --- */
 .catalogue-grid {
     display: grid;
-    /* Créera autant de colonnes que possible de 200px minimum */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 30px;
     justify-items: center;
-
 }
 
 @media (max-width: 500px) {
@@ -59,7 +56,6 @@
     }
 }
 
-/* --- CARTE (Style simple) --- */
 .card-link {
     text-decoration: none;
     color: white;
@@ -68,7 +64,6 @@
 
 .card-link:hover {
     transform: scale(1.05);
-    /* Effet de zoom au survol */
 }
 
 .card img {
@@ -83,7 +78,6 @@
     text-align: center;
 }
 
-/* --- PAGINATION --- */
 .pagination {
     display: flex;
     justify-content: center;
@@ -96,7 +90,6 @@
 .pagination button {
     padding: 10px 20px;
     background-color: #e50914;
-    /* Rouge */
     color: white;
     border: none;
     border-radius: 5px;
@@ -115,27 +108,21 @@
     font-weight: bold;
 }
 
-/*Spinner de chargement changement de page*/
-/* --- LE LOADER (Chargement) --- */
 .loader-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 60vh;
-    /* Prend de la hauteur pour centrer sur l'écran */
     width: 100%;
 }
 
 .spinner {
     border: 4px solid rgba(255, 255, 255, 0.1);
-    /* Cercle gris transparent */
     border-left-color: #e50914;
-    /* La partie qui tourne (Rouge Netflix) */
     border-radius: 50%;
     width: 50px;
     height: 50px;
     animation: spin 1s linear infinite;
-    /* Ça tourne à l'infini */
 }
 
 @keyframes spin {

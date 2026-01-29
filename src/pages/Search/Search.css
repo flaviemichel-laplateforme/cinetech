@@ -1,6 +1,5 @@
 .search-page {
     padding: 100px 40px 40px;
-    /* Padding haut pour éviter le header */
     min-height: 100vh;
     background-color: #111;
     color: white;
