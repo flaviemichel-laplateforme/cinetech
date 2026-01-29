@@ -116,13 +116,14 @@
     }
 
     .fav-card-wrapper .card {
-        width: 100%;
+        width: 100% !important;
+        margin: 0 auto;
     }
 
     .fav-card-wrapper .card-image {
         border-radius: 6px;
         width: 100%;
-        height: auto;
+        height: auto !important;
     }
 
     .fav-card-wrapper .card-title {
