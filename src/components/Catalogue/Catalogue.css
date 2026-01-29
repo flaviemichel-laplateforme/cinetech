@@ -17,6 +17,8 @@
     /* Créera autant de colonnes que possible de 200px minimum */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 30px;
+    justify-items: center;
+
 }
 
 @media (max-width: 500px) {

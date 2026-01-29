@@ -40,11 +40,10 @@
 /* --- LA GRILLE MAGIQUE --- */
 .favoris-grid {
     display: grid;
-    /* Crée autant de colonnes que possible, avec une largeur min de 200px */
+    /* Créera autant de colonnes que possible de 200px minimum */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 30px;
-    /* Espace entre les cartes */
-    animation: fadeIn 0.5s ease;
+    justify-items: center;
 }
 
 /* Animation d'apparition douce */
@@ -105,16 +104,21 @@
 }
 
 /* --- RESPONSIVE MOBILE --- */
+/* --- RESPONSIVE MOBILE --- */
 @media (max-width: 600px) {
     .favoris-page {
-        padding: 120px 20px 20px;
-        /* Plus d'espace en haut pour le header mobile */
+        padding: 140px 5px 20px;
     }
 
     .favoris-grid {
-        /* Sur mobile, on réduit la taille minimale des cartes pour en mettre 2 par ligne */
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 15px;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .fav-card-wrapper {
+        display: block;
+        width: 100%;
     }
 
     .favoris-header {
@@ -122,7 +126,6 @@
     }
 
     .favoris-header h1 {
-
         margin-top: 30px;
         font-size: 1rem;
     }
