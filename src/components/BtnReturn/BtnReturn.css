@@ -25,7 +25,7 @@
 /* Version Mobile */
 @media (max-width: 768px) {
     .btn-return {
-        top: 80px;
+        top: 150px;
         left: 20px;
     }
 
@@ -36,9 +36,7 @@
 
     .btn-return-icon {
         font-size: 1.5rem;
-        /* On grossit un peu la flèche */
         background-color: rgba(0, 0, 0, 0.5);
-        /* Petit fond noir pour la lisibilité sur mobile */
         border-radius: 50%;
         padding: 5px;
     }

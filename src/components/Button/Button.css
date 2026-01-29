@@ -28,7 +28,7 @@
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Style Cercle (Pour les favoris ou icônes seules) */
+/* Favoris */
 .btn-circle {
     width: 45px;
     height: 45px;
