@@ -89,7 +89,7 @@ function Header() {
                     <FiSearch className="search-icon" />
                     <input
                         type="text"
-                        placeholder="Titres, personnes, genres"
+                        placeholder="Recherche par titres ..."
                         value={searchTerm}
                         onChange={handleSearch}
                         onKeyDown={handleKeyDown}
