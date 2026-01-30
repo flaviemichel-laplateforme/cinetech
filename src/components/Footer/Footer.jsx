@@ -25,6 +25,14 @@ function Footer() {
                     <img src="/images/logo.png" alt="CineTech" className="logo-img" />
                 </Link>
                 <p>&copy; {new Date().getFullYear()} Cinetech - Plateforme de streaming</p>
+
+                <div className="footer-legal-links">
+                    <Link to="/mentions-legales">Mentions légales</Link>
+                    <span>•</span>
+                    <Link to="/politique-confidentialite">Confidentialité</Link>
+                    <span>•</span>
+                    <Link to="/cgu">CGU</Link>
+                </div>
             </div>
 
             <a href="https://github.com/flaviemichel-laplateforme/cinetech" target="_blank" rel="noopener noreferrer" className="github-link" aria-label="Voir le code source sur GitHub">

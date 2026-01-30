@@ -1,0 +1,116 @@
+.legal-page {
+    max-width: 900px;
+    margin: 120px auto 50px;
+    padding: 40px 30px;
+    color: white;
+    line-height: 1.8;
+    background-color: rgba(20, 20, 20, 0.8);
+    border-radius: 10px;
+}
+
+.legal-page h1 {
+    color: #E50914;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+    border-bottom: 2px solid #E50914;
+    padding-bottom: 20px;
+}
+
+.legal-page h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 4px solid #E50914;
+}
+
+.legal-page section {
+    margin-bottom: 35px;
+}
+
+.legal-page p {
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.legal-page strong {
+    color: white;
+}
+
+.legal-page a {
+    color: #E50914;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.legal-page a:hover {
+    text-decoration: underline;
+    color: #ff1f2f;
+}
+
+.legal-page ul {
+    list-style: disc;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.legal-page li {
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.tmdb-attribution {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.tmdb-attribution p {
+    margin-bottom: 15px;
+    color: #aaa;
+}
+
+.tmdb-logo {
+    height: 30px;
+    width: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .legal-page {
+        margin: 100px 20px 30px;
+        padding: 30px 20px;
+    }
+
+    .legal-page h1 {
+        font-size: 2rem;
+    }
+
+    .legal-page h2 {
+        font-size: 1.3rem;
+    }
+
+    .legal-page p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .legal-page {
+        margin: 90px 15px 20px;
+        padding: 25px 15px;
+    }
+
+    .legal-page h1 {
+        font-size: 1.7rem;
+    }
+
+    .legal-page h2 {
+        font-size: 1.2rem;
+    }
+}
